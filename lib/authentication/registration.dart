@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:jinx/authentication/login.dart';
 
 
 
@@ -20,6 +21,12 @@ class _registrationState extends State<registration> {
 
   @override
   Widget build(BuildContext context) {
+
+    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
+
+    String warning="";
+
     return SafeArea(
       child: Scaffold(
         backgroundColor: Theme.of(context).colorScheme.background,
@@ -32,6 +39,8 @@ class _registrationState extends State<registration> {
                   Text("Set up your Jinx account",style:GoogleFonts.kanit(fontSize: 25,fontWeight: FontWeight.w400,color:Theme.of(context).colorScheme.tertiary,),),
                   Text("Start your journey with us",style:GoogleFonts.kanit(fontSize: 15,color:Theme.of(context).colorScheme.tertiary,),),
                   SizedBox(height: 80,),
+
+                  //TextField for User Name
                   Container(
                       width: MediaQuery.of(context).size.width,
                       decoration: BoxDecoration(
@@ -49,7 +58,9 @@ class _registrationState extends State<registration> {
                           )
                       )
                   ),
-                  SizedBox(height: 15,),
+                  SizedBox(height: height*0.01,),
+
+                  //TextField for UserName
                   Container(
                       width: MediaQuery.of(context).size.width,
                       decoration: BoxDecoration(
@@ -67,7 +78,9 @@ class _registrationState extends State<registration> {
                           )
                       )
                   ),
-                  SizedBox(height: 15,),
+                  SizedBox(height: height*0.01,),
+
+                  //TextField for Email
                   Container(
                       width: MediaQuery.of(context).size.width,
                       decoration: BoxDecoration(
@@ -85,7 +98,9 @@ class _registrationState extends State<registration> {
                           )
                       )
                   ),
-                  SizedBox(height: 15,),
+                  SizedBox(height: height*0.01,),
+
+                  //TextField for Password
                   Container(
                       width: MediaQuery.of(context).size.width,
                       decoration: BoxDecoration(
@@ -105,7 +120,9 @@ class _registrationState extends State<registration> {
                           )
                       )
                   ),
-                  SizedBox(height: 15,),
+                  SizedBox(height: height*0.01,),
+
+                  //TextField for confirmPassword
                   Container(
                       width: MediaQuery.of(context).size.width,
                       decoration: BoxDecoration(
@@ -125,7 +142,7 @@ class _registrationState extends State<registration> {
                           )
                       )
                   ),
-                  SizedBox(height: 50,),
+                  SizedBox(height: height*0.01,),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -133,7 +150,8 @@ class _registrationState extends State<registration> {
                       TextButton(onPressed: (){}, child: Text("Terms,Privacy Policy",style: TextStyle(color: Theme.of(context).colorScheme.tertiary,fontWeight: FontWeight.bold),)),
                     ],
                   ),
-                  SizedBox(height: 15,),
+                  Text(warning,style: TextStyle(color: Colors.red,fontWeight: FontWeight.bold),),
+                  SizedBox(height: height*0.14,),
                   Container(
                     width: MediaQuery.of(context).size.width,
                     height: 50,
@@ -152,14 +170,14 @@ class _registrationState extends State<registration> {
                         child: Text("Sign up",)
                     ),
                   ),
-                  SizedBox(height: 10,),
-                  Divider(thickness: 2,),
-                  SizedBox(height: 10,),
+                  SizedBox(height: height*0.01,),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text("Already have an Account?",style: TextStyle(color: Theme.of(context).colorScheme.secondary),),
-                      TextButton(onPressed: (){}, child: Text("Sign In",style: TextStyle(color: Theme.of(context).colorScheme.tertiary,fontWeight: FontWeight.bold),)),
+                      TextButton(onPressed: (){
+                        Navigator.push(context, MaterialPageRoute(builder: (context)=>login()));
+                      }, child: Text("Sign In",style: TextStyle(color: Theme.of(context).colorScheme.tertiary,fontWeight: FontWeight.bold),)),
                     ],
                   ),
                 ],

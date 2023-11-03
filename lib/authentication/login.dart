@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -16,8 +18,26 @@ class _loginState extends State<login> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 
+  String warning="";
+
+  void loging(String email,String password)async{
+    if(email.isEmpty){
+      setState(() {
+        warning="Please Enter Email";
+      });
+    }
+    else if(password.isEmpty){
+      setState(() {
+        warning="Please Enter Password";
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
+
     return SafeArea(
       child: Scaffold(
         backgroundColor: Theme.of(context).colorScheme.background,
@@ -31,12 +51,14 @@ class _loginState extends State<login> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    SizedBox(height: 50,),
+                    SizedBox(height: height*0.05,),
                     Text("Let's Sign you in.",style: GoogleFonts.kanit(fontSize: 30,fontWeight: FontWeight.bold,color: Theme.of(context).colorScheme.tertiary),),
-                    SizedBox(height: 10,),
+                    SizedBox(height: height*0.02,),
                     Text("Welcome back.",style: GoogleFonts.workSans(fontSize: 25,color: Theme.of(context).colorScheme.tertiary)),
                     Text("You've been missed!",style: GoogleFonts.workSans(fontSize: 25,color: Theme.of(context).colorScheme.tertiary)),
-                    SizedBox(height: 50,),
+                    SizedBox(height: height*0.05,),
+
+                    //Email TextField
                     Container(
                         width: MediaQuery.of(context).size.width,
                         decoration: BoxDecoration(
@@ -54,7 +76,9 @@ class _loginState extends State<login> {
                             )
                         )
                     ),
-                    SizedBox(height: 10,),
+                    SizedBox(height: height*0.01,),
+
+                    //Password TextField
                     Container(
                         width: MediaQuery.of(context).size.width,
                         decoration: BoxDecoration(
@@ -74,7 +98,19 @@ class _loginState extends State<login> {
                             )
                         )
                     ),
-                    SizedBox(height: 250,),
+
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        TextButton(onPressed: (){},
+                            child: Text("Forget Password?")
+                        )
+                      ],
+                    ),
+                    Text(warning,style: TextStyle(color: Colors.red,fontWeight: FontWeight.bold),),
+
+
+                    SizedBox(height: height*0.25,),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -86,9 +122,20 @@ class _loginState extends State<login> {
                     ),
                     Container(
                       width: MediaQuery.of(context).size.width,
-                      height: 50,
+                      height: height*0.05,
                       child: ElevatedButton(
-                          onPressed: (){},
+                          onPressed: (){
+                              setState(() {
+                                loging(emailController.text,passwordController.text);
+                              });
+                            emailController.clear();
+                            passwordController.clear();
+                              Timer(Duration(milliseconds: 1500), () {
+                                setState(() {
+                                  warning="";
+                                });
+                              });
+                          },
 
                           style: ButtonStyle(
                             backgroundColor: MaterialStateProperty.all<Color>(Theme.of(context).colorScheme.tertiary),
