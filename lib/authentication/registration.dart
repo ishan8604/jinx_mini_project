@@ -156,7 +156,7 @@ class _registrationState extends State<registration> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text("I agree with Jinx",style: TextStyle(color: Theme.of(context).colorScheme.secondary)),
-                      TextButton(onPressed: (){}, child: Text("Terms & Privacy Policy",style: TextStyle(color: Theme.of(context).colorScheme.tertiary,fontWeight: FontWeight.bold),)),
+                      TextButton(onPressed: (){}, child: Text("Terms,Privacy Policy",style: TextStyle(color: Theme.of(context).colorScheme.tertiary,fontWeight: FontWeight.bold),)),
                     ],
                   ),
                   Text(warning,style: TextStyle(color: Colors.red,fontWeight: FontWeight.bold),),
