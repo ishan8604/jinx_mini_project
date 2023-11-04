@@ -28,8 +28,8 @@ class _splash_screnState extends State<splash_scren> {
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.background,
       body: Container(
-        child: const Center(
-          child: Icon(Icons.abc_outlined,size: 80,color: Colors.white),
+        child: Center(
+          child: Text("JINX",style: GoogleFonts.bebasNeue(color:Theme.of(context).colorScheme.tertiary,fontSize: 40)),
         ),
       ),
       bottomNavigationBar: Padding(

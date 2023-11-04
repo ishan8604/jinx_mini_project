@@ -1,6 +1,10 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:jinx/authentication/login.dart';
+
+import 'auth_method.dart';
 
 
 
@@ -19,13 +23,18 @@ class _registrationState extends State<registration> {
   TextEditingController passwordController = TextEditingController();
   TextEditingController confirmpasswordController = TextEditingController();
 
+  String warning="";
+
+  void register(String name,String username,String email,String password,String confirmPassword)async{
+    warning = await auth_methods().registration(name: name, username: username, email: email, password: password, confirmPassword: confirmPassword);
+    warning = "*"+warning+"*";
+  }
+
   @override
   Widget build(BuildContext context) {
 
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
-
-    String warning="";
 
     return SafeArea(
       child: Scaffold(
@@ -156,7 +165,29 @@ class _registrationState extends State<registration> {
                     width: MediaQuery.of(context).size.width,
                     height: 50,
                     child: ElevatedButton(
-                        onPressed: (){},
+                        onPressed: (){
+                          setState(() {
+                            register(
+                                nameController.text,
+                                usernameController.text,
+                                emailController.text,
+                                passwordController.text,
+                                confirmpasswordController.text
+                            );
+                          });
+                          nameController.clear();
+                          usernameController.clear();
+                          emailController.clear();
+                          passwordController.clear();
+                          confirmpasswordController.clear();
+                          Timer(Duration(milliseconds: 1500), () {
+                            setState(() {
+                              warning="";
+                            });
+                          });
+
+                        },
+
 
                         style: ButtonStyle(
                           backgroundColor: MaterialStateProperty.all<Color>(Theme.of(context).colorScheme.tertiary),
