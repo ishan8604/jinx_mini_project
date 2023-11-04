@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "502259368359",
+    "project_id": "jinx-5aacd",
+    "storage_bucket": "jinx-5aacd.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:502259368359:android:592e487a7ede53773eb682",
+        "android_client_info": {
+          "package_name": "com.example.jinx"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCc5RZ8I7figaaG1kO2C7zFz4UQ9AAqNug"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
