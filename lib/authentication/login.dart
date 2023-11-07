@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:jinx/authentication/auth_method.dart';
 import 'package:jinx/authentication/registration.dart';
 
 
@@ -22,8 +21,16 @@ class _loginState extends State<login> {
   String warning="";
 
   void loging(String email,String password)async{
-    warning = await auth_methods().loging(email: email, password: password);
-    warning = "*"+warning+"*";
+    if(email.isEmpty){
+      setState(() {
+        warning="Please Enter Email";
+      });
+    }
+    else if(password.isEmpty){
+      setState(() {
+        warning="Please Enter Password";
+      });
+    }
   }
 
   @override
