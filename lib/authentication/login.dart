@@ -1,12 +1,13 @@
 import 'dart:async';
 
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:jinx/authentication/auth_method.dart';
 import 'package:jinx/authentication/registration.dart';
 
-FirebaseAuth _auth = FirebaseAuth.instance;
+import '../Home_Screen/home_screen.dart';
+
 
 class login extends StatefulWidget {
   const login({super.key});
@@ -16,41 +17,41 @@ class login extends StatefulWidget {
 }
 
 class _loginState extends State<login> {
+
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
-  late bool _success;
-  late String _userEmail;
 
-  String warning = "";
+  String errorMSG1='';
+  bool obscureText = true;
 
-  void loging(String email, String password) async {
-    if (email.isEmpty) {
-      setState(() {
-        warning = "Please Enter Email";
-      });
-    } else if (password.isEmpty) {
-      setState(() {
-        warning = "Please Enter Password";
-      });
+  void loginingIn() async {
+    errorMSG1 = await auth_methods().loging(email: emailController.text, password: passwordController.text);
+
+    if(errorMSG1 == "Success"){
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => home_screen()));
     }
-  }
+    else{ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          width: MediaQuery.of(context).size.width,
+          content:
+          Container(
+            height: 50,
+            decoration: BoxDecoration(
+                color: Colors.red,
+                borderRadius: BorderRadius.all(Radius.circular(10))
+            ),
+            child: SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                children: [
+                  SizedBox(width: 3,),
+                  Icon(Icons.warning_rounded),
+                  SizedBox(width: 5,),
+                  Text(errorMSG1,style: GoogleFonts.signikaNegative(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 8),textAlign: TextAlign.center,)
+                ],),
+            ),
+          ),behavior: SnackBarBehavior.floating,backgroundColor: Colors.transparent,elevation: 0,));}
 
-  void login() async {
-    try {
-      User user = (await _auth.signInWithEmailAndPassword(
-          email: emailController.text,
-          password: passwordController.text)) as User;
-      if (user != null) {
-        _success = true;
-        _userEmail = user.email as String;
-      } else {
-        _success = false;
-      }
-    } catch (e) {
-      print(e);
-      emailController.text = "";
-      passwordController.text = "";
-    }
   }
 
   @override
@@ -59,174 +60,135 @@ class _loginState extends State<login> {
     double width = MediaQuery.of(context).size.width;
 
     return SafeArea(
-      child: Scaffold(
-          backgroundColor: Theme.of(context).colorScheme.background,
-          body: SingleChildScrollView(
-            child: Center(
-              child: Container(
-                height: MediaQuery.of(context).size.height,
-                child: Padding(
-                  padding: const EdgeInsets.all(20),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SizedBox(
-                        height: height * 0.05,
-                      ),
-                      Text(
-                        "Let's Sign you in.",
-                        style: GoogleFonts.kanit(
-                            fontSize: 30,
-                            fontWeight: FontWeight.bold,
-                            color: Theme.of(context).colorScheme.tertiary),
-                      ),
-                      SizedBox(
-                        height: height * 0.02,
-                      ),
-                      Text("Welcome back.",
-                          style: GoogleFonts.workSans(
-                              fontSize: 25,
-                              color: Theme.of(context).colorScheme.tertiary)),
-                      Text("You've been missed!",
-                          style: GoogleFonts.workSans(
-                              fontSize: 25,
-                              color: Theme.of(context).colorScheme.tertiary)),
-                      SizedBox(
-                        height: height * 0.05,
-                      ),
-
-                      //Email TextField
-                      Container(
-                          width: MediaQuery.of(context).size.width,
-                          decoration: BoxDecoration(
-                              border: Border.all(
-                                  width: 2,
-                                  color: Color.fromRGBO(210, 210, 210, 1.0)),
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(10))),
-                          child: TextField(
-                              style: TextStyle(
-                                  color:
-                                      Theme.of(context).colorScheme.tertiary),
-                              controller: emailController,
-                              decoration: InputDecoration(
-                                hintText: 'Email',
-                                hintStyle: TextStyle(
-                                    color:
-                                        Theme.of(context).colorScheme.tertiary),
-                                border: InputBorder.none,
-                                filled: true,
-                              ))),
-                      SizedBox(
-                        height: height * 0.01,
-                      ),
-
-                      //Password TextField
-                      Container(
-                          width: MediaQuery.of(context).size.width,
-                          decoration: BoxDecoration(
-                              border: Border.all(
-                                  width: 2,
-                                  color: Color.fromRGBO(210, 210, 210, 1.0)),
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(10))),
-                          child: TextField(
-                              style: TextStyle(
-                                  color:
-                                      Theme.of(context).colorScheme.tertiary),
-                              controller: passwordController,
-                              obscureText: true,
-                              decoration: InputDecoration(
-                                  hintText: 'Password',
-                                  hintStyle: TextStyle(
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .tertiary),
-                                  border: InputBorder.none,
-                                  filled: true,
-                                  suffixIcon: Icon(
-                                    Icons.remove_red_eye,
-                                    color: Colors.white,
-                                  )))),
-
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          TextButton(
-                              onPressed: () {}, child: Text("Forget Password?"))
-                        ],
-                      ),
-                      Text(
-                        warning,
-                        style: TextStyle(
-                            color: Colors.red, fontWeight: FontWeight.bold),
-                      ),
-
-                      SizedBox(
-                        height: height * 0.25,
-                      ),
-                      Row(
+      child: Stack(
+        children: [
+          Image.asset("assets/background1.png",height: MediaQuery.of(context).size.height,width: MediaQuery.of(context).size.width,fit: BoxFit.cover,),
+          Scaffold(
+              backgroundColor: Colors.transparent,
+              body: SingleChildScrollView(
+                child: Center(
+                  child: Container(
+                    height: MediaQuery.of(context).size.height,
+                    child: Padding(
+                      padding: const EdgeInsets.all(20),
+                      child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text("Don't have an account",
-                              style: TextStyle(
-                                color: Theme.of(context).colorScheme.tertiary,
-                              )),
-                          TextButton(
-                              onPressed: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => registration()));
-                              },
-                              child: Text(
-                                "Register",
-                                style: TextStyle(
-                                    color:
-                                        Theme.of(context).colorScheme.tertiary,
-                                    fontWeight: FontWeight.bold),
-                              )),
+                          SizedBox(height: height*0.05,),
+                          Text("Let's Sign you in.",style: GoogleFonts.kanit(fontSize: 30,fontWeight: FontWeight.bold,color: Theme.of(context).colorScheme.tertiary),),
+                          SizedBox(height: height*0.02,),
+                          Text("Welcome back.",style: GoogleFonts.workSans(fontSize: 25,color: Theme.of(context).colorScheme.tertiary)),
+                          Text("You've been missed!",style: GoogleFonts.workSans(fontSize: 25,color: Theme.of(context).colorScheme.tertiary)),
+                          SizedBox(height: height*0.05,),
+
+                          //Email TextField
+                          Container(
+                              width: MediaQuery.of(context).size.width,
+                              decoration: BoxDecoration(
+                                  border: Border.all(width: 2,color: Color.fromRGBO(210, 210, 210, 1.0)),
+                                  borderRadius: BorderRadius.all(Radius.circular(10))
+                              ),
+                              child: TextField(
+                                  style: TextStyle(color: Theme.of(context).colorScheme.tertiary),
+                                  controller: emailController,
+                                  decoration: InputDecoration(
+                                    hintText: 'Email',
+                                    hintStyle: TextStyle(color: Theme.of(context).colorScheme.tertiary),
+                                    border: InputBorder.none,
+                                    filled:true,
+                                  )
+                              )
+                          ),
+                          SizedBox(height: height*0.01,),
+
+                          //Password TextField
+                          Container(
+                              width: MediaQuery.of(context).size.width,
+                              decoration: BoxDecoration(
+                                  border: Border.all(width: 2,color: Color.fromRGBO(210, 210, 210, 1.0)),
+                                  borderRadius: BorderRadius.all(Radius.circular(10))
+                              ),
+                              child: TextField(
+                                  style: TextStyle(color: Theme.of(context).colorScheme.tertiary),
+                                  controller: passwordController,
+                                  obscureText: obscureText,
+                                  decoration: InputDecoration(
+                                      hintText: 'Password',
+                                      hintStyle: TextStyle(color: Theme.of(context).colorScheme.tertiary),
+                                      border: InputBorder.none,
+                                      filled:true,
+                                      suffixIcon: GestureDetector(
+                                        onTap: (){
+                                          setState(() {
+                                            obscureText = !obscureText;
+                                          });
+                                        },
+                                        child: obscureText?Icon(Icons.remove_red_eye,color: Color.fromRGBO(216, 249, 217, 1.0),):Icon(Icons.remove_red_eye,color: Color.fromRGBO(69, 191, 85, 1.0),),
+                                      )
+                                  )
+                              )
+                          ),
+
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              TextButton(onPressed: (){},
+                                  child: Text("Forget Password?")
+                              )
+                            ],
+                          ),
+                          Text(errorMSG1,style: TextStyle(color: Colors.red,fontWeight: FontWeight.bold),),
+
+
+                          SizedBox(height: height*0.25,),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text("Don't have an account",style: TextStyle(color: Theme.of(context).colorScheme.tertiary,)),
+                              TextButton(onPressed: (){
+                                Navigator.push(context, MaterialPageRoute(builder: (context)=>registration()));
+                              }, child: Text("Register",style: TextStyle(color: Theme.of(context).colorScheme.tertiary,fontWeight: FontWeight.bold),)),
+                            ],
+                          ),
+                          Container(
+                            width: MediaQuery.of(context).size.width,
+                            height: height*0.05,
+                            child: ElevatedButton(
+                                onPressed: (){
+                                  setState(() {
+                                    loginingIn();
+                                  });
+                                  emailController.clear();
+                                  passwordController.clear();
+                                  Timer(Duration(milliseconds: 1500), () {
+                                    setState(() {
+                                      errorMSG1="";
+                                    });
+                                  });
+                                },
+
+                                style: ButtonStyle(
+                                  backgroundColor: MaterialStateProperty.all<Color>(Color.fromRGBO(4, 77, 41, 1.0)),
+                                  shape: MaterialStateProperty.all(
+                                    RoundedRectangleBorder(
+                                      // Change your radius here
+                                      borderRadius: BorderRadius.circular(16),
+                                    ),
+                                  ),
+                                ),
+                                child: Text("Sign In",)
+                            ),
+                          )
                         ],
                       ),
-                      Container(
-                        width: MediaQuery.of(context).size.width,
-                        height: height * 0.05,
-                        child: ElevatedButton(
-                            onPressed: () {
-                              setState(() {
-                                loging(emailController.text,
-                                    passwordController.text);
-                              });
-                              login();
-                              emailController.clear();
-                              passwordController.clear();
-                              Timer(Duration(milliseconds: 1500), () {
-                                setState(() {
-                                  warning = "";
-                                });
-                              });
-                            },
-                            style: ButtonStyle(
-                              backgroundColor: MaterialStateProperty.all<Color>(
-                                  Theme.of(context).colorScheme.tertiary),
-                              shape: MaterialStateProperty.all(
-                                RoundedRectangleBorder(
-                                  // Change your radius here
-                                  borderRadius: BorderRadius.circular(16),
-                                ),
-                              ),
-                            ),
-                            child: Text(
-                              "Sign In",
-                            )),
-                      )
-                    ],
+                    ),
                   ),
                 ),
-              ),
-            ),
-          )),
+              )
+          ),
+        ],
+      )
     );
   }
 }

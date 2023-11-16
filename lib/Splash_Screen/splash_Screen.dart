@@ -25,24 +25,31 @@ class _splash_screnState extends State<splash_scren> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.background,
-      body: Container(
-        child: const Center(
-          child: Icon(Icons.abc_outlined,size: 80,color: Colors.white),
-        ),
-      ),
-      bottomNavigationBar: Padding(
-        padding: const EdgeInsets.all(15.0),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
+    return SafeArea(
+        child: Stack(
           children: [
-            Text("from",style: TextStyle(color: Theme.of(context).colorScheme.tertiary),),
-            SizedBox(width: 10,),
-            Text("Jinx",style: GoogleFonts.sriracha(color: Theme.of(context).colorScheme.tertiary,fontSize: 26),)
+            Image.asset("assets/background1.png",height: MediaQuery.of(context).size.height,width: MediaQuery.of(context).size.width,fit: BoxFit.cover,),
+            Scaffold(
+                backgroundColor: Colors.transparent,
+                body: Container(
+                  child: Center(
+                    child: Text("JINX",style: GoogleFonts.bebasNeue(color:Theme.of(context).colorScheme.tertiary,fontSize: 40)),
+                  ),
+                ),
+                bottomNavigationBar: Padding(
+                  padding: const EdgeInsets.all(15.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text("from",style: TextStyle(color: Theme.of(context).colorScheme.tertiary),),
+                      SizedBox(width: 10,),
+                      Text("Jinx",style: GoogleFonts.sriracha(color: Theme.of(context).colorScheme.tertiary,fontSize: 26),)
+                    ],
+                  ),
+                )
+            )
           ],
-        ),
-      )
+        )
     );
   }
 }
