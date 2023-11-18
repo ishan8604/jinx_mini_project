@@ -5,6 +5,9 @@ import 'package:jinx/All_Screens/feed.dart';
 import 'package:jinx/All_Screens/notification.dart';
 import 'package:jinx/All_Screens/userProfile.dart';
 import 'package:jinx/All_Screens/userSearch.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+
 
 class home_screen extends StatefulWidget {
   const home_screen({super.key});
@@ -18,6 +21,8 @@ class _home_screenState extends State<home_screen> {
   int _page = 0;
   late PageController pagecontroller;
 
+  String username = "";
+
   void initState() {
     super.initState();
     pagecontroller = PageController();
@@ -28,6 +33,15 @@ class _home_screenState extends State<home_screen> {
   void onPageChanged(int page) {
     setState(() {
       _page = page;
+    });
+  }
+  void getUsername() async {
+    DocumentSnapshot snap = await FirebaseFirestore.instance
+        .collection('UsersDetails')
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .get();
+    setState(() {
+      username = (snap.data() as Map<String, dynamic>)['username'];
     });
   }
 
@@ -44,7 +58,7 @@ class _home_screenState extends State<home_screen> {
               userSearch(),
               addPost(),
               notification(),
-              userProfile()
+              userProfile(uid: FirebaseAuth.instance.currentUser!.uid,),
         ],
         physics: const NeverScrollableScrollPhysics(),
         controller: pagecontroller,
@@ -52,7 +66,7 @@ class _home_screenState extends State<home_screen> {
       ),
         bottomNavigationBar: CupertinoTabBar(
             height: height*0.1,
-            backgroundColor: Theme.of(context).colorScheme.onBackground,
+            backgroundColor: Colors.black,
             activeColor: Colors.red,
 
             items: [

@@ -90,9 +90,9 @@ class _registrationState extends State<registration> {
                   padding: const EdgeInsets.all(20.0),
                   child: Column(
                     children: [
-                      Text("Set up your Jinx account",style:GoogleFonts.kanit(fontSize: 25,fontWeight: FontWeight.w400,color:Theme.of(context).colorScheme.tertiary,),),
+                      Text("Set up your Jinx account",style:GoogleFonts.kanit(fontSize: 24,fontWeight: FontWeight.w400,color:Theme.of(context).colorScheme.tertiary,),),
                       Text("Start your journey with us",style:GoogleFonts.kanit(fontSize: 15,color:Theme.of(context).colorScheme.tertiary,),),
-                      SizedBox(height: 80,),
+                      SizedBox(height: height*0.08,),
 
                       //TextField for User Name
                       Container(
@@ -105,10 +105,11 @@ class _registrationState extends State<registration> {
                               style: TextStyle(color: Theme.of(context).colorScheme.tertiary),
                               controller: nameController,
                               decoration: InputDecoration(
-                                hintText: 'Name',
+                                hintText: 'Full Name',
                                 hintStyle: TextStyle(color: Theme.of(context).colorScheme.tertiary),
                                 border: InputBorder.none,
                                 filled:true,
+                                  fillColor: Colors.transparent
                               )
                           )
                       ),
@@ -125,10 +126,11 @@ class _registrationState extends State<registration> {
                               style: TextStyle(color: Theme.of(context).colorScheme.tertiary),
                               controller: usernameController,
                               decoration: InputDecoration(
-                                hintText: 'userName',
+                                hintText: 'Username',
                                 hintStyle: TextStyle(color: Theme.of(context).colorScheme.tertiary),
                                 border: InputBorder.none,
                                 filled:true,
+                                  fillColor: Colors.transparent
                               )
                           )
                       ),
@@ -149,6 +151,7 @@ class _registrationState extends State<registration> {
                                 hintStyle: TextStyle(color: Theme.of(context).colorScheme.tertiary),
                                 border: InputBorder.none,
                                 filled:true,
+                                  fillColor: Colors.transparent
                               )
                           )
                       ),
@@ -170,6 +173,7 @@ class _registrationState extends State<registration> {
                                   hintStyle: TextStyle(color: Theme.of(context).colorScheme.tertiary),
                                   border: InputBorder.none,
                                   filled:true,
+                                  fillColor: Colors.transparent,
                                   suffixIcon: GestureDetector(
                                     onTap: (){
                                       setState(() {
@@ -199,6 +203,7 @@ class _registrationState extends State<registration> {
                                   hintStyle: TextStyle(color: Theme.of(context).colorScheme.tertiary),
                                   border: InputBorder.none,
                                   filled:true,
+                                  fillColor: Colors.transparent,
                                   suffixIcon: GestureDetector(
                                     onTap: (){
                                       setState(() {

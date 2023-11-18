@@ -16,22 +16,24 @@ class _userSearchState extends State<userSearch> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.onSecondary,
+      backgroundColor: Color.fromRGBO(50, 50, 50, 1.0),
       appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.onBackground,
+        backgroundColor: Colors.black,
         title: Container(
           width: MediaQuery.of(context).size.width,
           height: 50,
           child: TextFormField(
+            style: TextStyle(color: Color.fromRGBO(216, 249, 217, 1.0)),
                   controller: searchUser,
                   decoration: InputDecoration(
-                      prefixIcon: Icon(Icons.search_outlined,color: Theme.of(context).colorScheme.onPrimary,size:30 ,),
+                      prefixIcon: Icon(Icons.search_outlined,color: Colors.white,size:30 ,),
                       hintText: 'Search...',
-                      hintStyle: TextStyle(color: Theme.of(context).colorScheme.onPrimary),
-                      suffixIcon: IconButton(icon: Icon(Icons.cancel_outlined,color: Theme.of(context).colorScheme.onPrimary,size:20 ,),onPressed: (){setState(() {
+                      hintStyle: TextStyle(color: Colors.white),
+                      suffixIcon: IconButton(icon: Icon(Icons.cancel_outlined,color: Colors.white,size:20 ,),onPressed: (){setState(() {
                         searchUser.clear();
                       });},),
                       filled: true,
+                      fillColor: Colors.transparent,
                       border: InputBorder.none,
             ),
             ),
@@ -42,7 +44,7 @@ class _userSearchState extends State<userSearch> {
         ),
       ),
       body: Center(
-        child: Text("Search Your Favourite One's",style: GoogleFonts.habibi(color: Theme.of(context).colorScheme.tertiary,fontWeight: FontWeight.bold,fontSize: 15),),
+        child: Text("Search Your Favourite One's",style: GoogleFonts.habibi(color: Color.fromRGBO(216, 249, 217, 1.0),fontWeight: FontWeight.bold,fontSize: 15),),
       ),
     );
   }

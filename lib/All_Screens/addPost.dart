@@ -1,9 +1,13 @@
 import 'dart:typed_data';
 import 'dart:io';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
+
+import '../firestore_methods.dart';
 
 
 class addPost extends StatefulWidget {
@@ -19,6 +23,9 @@ class _addPostState extends State<addPost> {
   bool _isLoading = false;
   bool choicechip = false;
 
+  String username="";
+  String uid="";
+
   late TimeOfDay time;
   _selectedTime()async{
     TimeOfDay? picker = await showTimePicker(context: context, initialTime: time);
@@ -28,12 +35,57 @@ class _addPostState extends State<addPost> {
       });
     }
   }
-  @override
-  void initState() {
-    time = TimeOfDay.now();
-    // TODO: implement initState
-    super.initState();
+  void getalldetails() async {
+    DocumentSnapshot snap = await FirebaseFirestore.instance.collection('UsersDetails').doc(FirebaseAuth.instance.currentUser!.uid).get();
+    setState(() {
+      username = (snap.data() as Map<String,dynamic>)['username'];
+      uid = (snap.data() as Map<String,dynamic>)['uid'];
+    });
   }
+  void _postImage(
+      String uid,
+      String username,
+      ) async {
+    setState(() {
+      _isLoading = true;
+    });
+    try{
+      String res = await FirestoreMethods().uploadPost(
+          controllerCaption.text,
+          uid,
+          username,
+          controllerlocation.text,
+          _file!);
+      if(res=="Success"){
+        setState(() {
+          _isLoading = false;
+        });
+        ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+                content: Text("Posted!")
+            )
+        );
+        clearImg();
+      }
+      else{
+        setState(() {
+          _isLoading = false;
+        });
+        ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+                content: Text(res)
+            )
+        );
+      }
+    }catch(e){
+      ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+              content: Text(e.toString())
+          )
+      );
+    }
+  }
+
   TextEditingController controllerCaption = TextEditingController();
   TextEditingController controllerlocation = TextEditingController();
   _selectImage(BuildContext context) async {
@@ -144,13 +196,23 @@ class _addPostState extends State<addPost> {
     });
   }
   @override
+  void initState() {
+    time = TimeOfDay.now();
+    // TODO: implement initState
+    super.initState();
+    getalldetails();
+  }
+  @override
   Widget build(BuildContext context) {
     return _file == null?
       Scaffold(
       backgroundColor: Theme.of(context).colorScheme.onSecondary,
       appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.onBackground,
-        title: Text("Add New Post"),
+        backgroundColor: Colors.black,
+        title: Text("Add New Post",style: GoogleFonts.signikaNegative(
+            color: Color.fromRGBO(216, 249, 217, 1.0),
+            fontWeight: FontWeight.bold,
+            fontSize: 20),),
         actions: [
           TextButton(onPressed: (){}, child: Text("Share",style: TextStyle(color: Colors.blue,fontWeight: FontWeight.bold,fontSize: 17),))
         ],
@@ -246,18 +308,21 @@ class _addPostState extends State<addPost> {
     Scaffold(
       backgroundColor: Theme.of(context).colorScheme.onSecondary,
       appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.onBackground,
+        backgroundColor: Colors.black,
         leading: IconButton(
           icon: Icon(
             Icons.arrow_back_ios,
           ),
           onPressed: clearImg,
         ),
-        title: Text("Add New Post"),
+        title: Text("Add New Post",style: GoogleFonts.signikaNegative(
+        color: Color.fromRGBO(216, 249, 217, 1.0),
+            fontWeight: FontWeight.bold,
+            fontSize: 20),),
         centerTitle: false,
         actions: [
           TextButton(
-              onPressed: (){},
+              onPressed: () => _postImage(uid, username),
               child: Text(
                 "Share",
                 style: GoogleFonts.signikaNegative(
@@ -326,6 +391,7 @@ class _addPostState extends State<addPost> {
                   hintText: 'Add Location',
                   hintStyle: TextStyle(color: Theme.of(context).colorScheme.onPrimary,fontWeight: FontWeight.w300),
                   filled: true,
+                  fillColor: Colors.transparent,
                   border: InputBorder.none,
                 ),
               ),
@@ -342,7 +408,7 @@ class _addPostState extends State<addPost> {
                   Text("Schedule Post",style: TextStyle(color: Colors.white,fontWeight: FontWeight.w300,fontSize: 15),),
                   Spacer(),
                   ChoiceChip(
-                    label: choicechip == false?Text("OFF"):Text("ON",style: TextStyle(color: Color.fromRGBO(216, 249, 217, 1.0),fontWeight: FontWeight.bold),),
+                    label: choicechip == false?Text("OFF",style: TextStyle(color: Color.fromRGBO(216, 249, 217, 1.0),fontWeight: FontWeight.bold),):Text("ON",style: TextStyle(color: Color.fromRGBO(216, 249, 217, 1.0),fontWeight: FontWeight.bold),),
                     selected: choicechip,
                     selectedColor: Color.fromRGBO(22, 128, 57, 1.0),
                     onSelected: (newState){

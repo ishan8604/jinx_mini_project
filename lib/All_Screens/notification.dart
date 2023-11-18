@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:jinx/All_Screens/feed.dart';
 import 'package:jinx/Home_Screen/home_screen.dart';
 
@@ -15,8 +16,11 @@ class _notificationState extends State<notification> {
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.onSecondary,
       appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.onBackground,
-        title: Text("Notification"),
+        backgroundColor: Colors.black,
+        title: Text("Notification",style: GoogleFonts.signikaNegative(
+            color: Color.fromRGBO(216, 249, 217, 1.0),
+            fontWeight: FontWeight.bold,
+            fontSize: 20),),
       ),
     );
   }

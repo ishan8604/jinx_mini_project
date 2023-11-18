@@ -25,7 +25,7 @@ ThemeData darkTheme = ThemeData(
       secondary:Color.fromRGBO(69, 191, 85, 1.0),
       tertiary: Color.fromRGBO(216, 249, 217, 1.0),
 
-      onBackground: Colors.black,
+      onBackground: Color.fromRGBO(23, 22, 22, 1.0),
       onPrimary: Colors.white,
 
       onSecondary: Color.fromRGBO(50, 50, 50, 1.0)

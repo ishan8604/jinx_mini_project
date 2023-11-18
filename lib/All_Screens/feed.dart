@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:jinx/post_Data/postCard.dart';
@@ -14,27 +15,29 @@ class _feedState extends State<feed> {
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        Image.asset("assets/background1.png",fit: BoxFit.cover,height: MediaQuery.of(context).size.height,width: MediaQuery.of(context).size.width,),
         Scaffold(
-          backgroundColor: Colors.transparent,
+          backgroundColor: Color.fromRGBO(23, 22, 22, 1.0),
           appBar: AppBar(
-          backgroundColor: Theme.of(context).colorScheme.onBackground,
-          title: Text("JINX",style: GoogleFonts.sriracha(),),
+            backgroundColor: Colors.black,
+          title: Text("JINX",style: GoogleFonts.sriracha(color: Color.fromRGBO(216, 249, 217, 1.0)),),
           actions: [
-            IconButton(onPressed: (){}, icon: Icon(Icons.messenger_outline)),
+            IconButton(onPressed: (){}, icon: Icon(Icons.messenger_outline,color: Color.fromRGBO(216, 249, 217, 1.0),)),
             ],
           ),
-        body: Center(
-          child: ListView(
-            children: [
-              postCard(),
-              postCard(),
-              postCard(),
-              postCard(),
-              postCard(),
-          ],
-        )
-      ),
+        body: StreamBuilder(
+          stream: FirebaseFirestore.instance.collection('posts').snapshots(),
+          builder: (context , AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot){
+            if(snapshot.connectionState == ConnectionState.waiting){
+              return Center(child: CircularProgressIndicator(color: Colors.black,),);
+            }
+            return ListView.builder(
+              itemCount:  snapshot.data!.docs.length,
+              itemBuilder: (context,index) => postCard(
+                snap: snapshot.data!.docs[index].data(),
+              ),
+            );
+          },
+        ),
     )
       ],
     );

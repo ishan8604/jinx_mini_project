@@ -6,7 +6,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'Comment_card.dart';
 
 class comment_screen extends StatefulWidget {
-  const comment_screen({super.key});
+  final snap;
+  const comment_screen({super.key, required this.snap});
 
   @override
   State<comment_screen> createState() => _comment_screenState();

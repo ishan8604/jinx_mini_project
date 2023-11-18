@@ -11,8 +11,18 @@ void main() async {
   await Firebase.initializeApp();
   runApp(MaterialApp(
     debugShowCheckedModeBanner: false,
-    home: splash_scren(),
     theme: lightTheme,
     darkTheme: darkTheme,
+    home: StreamBuilder(
+      stream: FirebaseAuth.instance.authStateChanges(),
+      builder: (context,snapshot){
+        if(snapshot.connectionState == ConnectionState.active){
+          if(snapshot.hasData)  return splash_scren1();
+          else if(snapshot.hasError)  return Center(child: Text("Some Error Occured"),);
+        }
+        if(snapshot.connectionState == ConnectionState.waiting) return Center(child: CircularProgressIndicator(color: Colors.white,),);
+        return splash_scren();
+      },
+    ),
   ));
 }

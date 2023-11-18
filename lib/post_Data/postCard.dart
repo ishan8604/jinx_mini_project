@@ -1,15 +1,41 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:jinx/All_Screens/comment_screen.dart';
+import 'package:intl/intl.dart';
+
+import '../firestore_methods.dart';
 
 class postCard extends StatefulWidget {
-  const postCard({super.key});
+  final snap;
+  const postCard({super.key,required this.snap});
 
   @override
   State<postCard> createState() => _postCardState();
 }
 
 class _postCardState extends State<postCard> {
+  int commentLength=0;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getCurrentUID();
+    getComments();
+  }
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  String uid ='';
+  void getCurrentUID()async{
+    uid = await _auth.currentUser!.uid;
+  }
+  void getComments() async{
+    try {
+      QuerySnapshot snap =  await FirebaseFirestore.instance.collection('posts').doc(widget.snap['postId']).collection('comments').get();
+      commentLength = snap.docs.length;
+    }catch(e){print(e.toString());}
+    setState(() {});
+  }
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -17,7 +43,7 @@ class _postCardState extends State<postCard> {
       child: Container(
         decoration: BoxDecoration(
             borderRadius: BorderRadius.all(Radius.circular(15)),
-            color: Theme.of(context).colorScheme.onBackground,
+          color: Colors.black,
         ),
         child: Column(
           children: [
@@ -36,8 +62,8 @@ class _postCardState extends State<postCard> {
                           mainAxisSize: MainAxisSize.min,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text("_bhagyodaya__varshney",style: TextStyle(color: Theme.of(context).colorScheme.tertiary,fontWeight: FontWeight.bold),),
-                            Text("Mathura",style: TextStyle(color: Theme.of(context).colorScheme.onPrimary),)
+                            Text(widget.snap['username'],style: TextStyle(color: Theme.of(context).colorScheme.tertiary,fontWeight: FontWeight.bold),),
+                            Text(widget.snap['location']!,style: TextStyle(color: Theme.of(context).colorScheme.onPrimary),)
                           ],
                         ),
                       )),
@@ -67,6 +93,23 @@ class _postCardState extends State<postCard> {
                                   ),
                                   onPressed: () async {},
                                 ),
+                                SimpleDialogOption(
+                                  padding: const EdgeInsets.all(20),
+                                  child: Row(
+                                    children: [
+                                      Icon(
+                                        Icons.telegram_outlined,
+                                        color: Theme.of(context).colorScheme.onPrimary,
+                                      ),
+                                      SizedBox(
+                                        width: 10,
+                                      ),
+                                      Text("Delete",
+                                          style: GoogleFonts.notoSans(color: Colors.white)),
+                                    ],
+                                  ),
+                                  onPressed: () async {},
+                                ),
                               ],
                             )
                         );
@@ -85,7 +128,7 @@ class _postCardState extends State<postCard> {
                   borderRadius: BorderRadius.circular(20), // Image border
                   child: SizedBox.fromSize(
                       size: Size.fromRadius(180), // Image radius
-                      child: Image.network("https://www.hollywoodreporter.com/wp-content/uploads/2012/12/img_logo_blue.jpg?w=681&h=383&crop=1",fit: BoxFit.cover,)
+                      child: Image.network(widget.snap['postImg'],fit: BoxFit.cover,)
                   ),
                 ),
               ),
@@ -95,20 +138,24 @@ class _postCardState extends State<postCard> {
             Row(
               children: [
                 IconButton(
-                    onPressed: ()async{},
-                    icon: Icon(Icons.favorite_outline_rounded,color: Theme.of(context).colorScheme.onPrimary,)
+                    onPressed: ()async{
+                      await FirestoreMethods().likePost(widget.snap['postId'],uid,widget.snap['likes']);
+                    },
+                    icon: widget.snap['likes'].contains(uid) ? Icon(Icons.favorite,color: Colors.red,) : Icon(Icons.favorite_outline_rounded,)
                 ),
-                Text("100",style: TextStyle(color: Theme.of(context).colorScheme.onPrimary),),
+                Text('${widget.snap['likes'].length}',style: TextStyle(color: Theme.of(context).colorScheme.onPrimary),),
                 SizedBox(width: 30,),
                 IconButton(
                     onPressed: (){
                       showModalBottomSheet(
                           isScrollControlled: true,
                           backgroundColor: Colors.transparent,
-                          context: context, builder: (context) => comment_screen());
+                          context: context, builder: (context) => comment_screen(
+                        snap:widget.snap,
+                      ));
                       },
                     icon: Icon(Icons.comment_outlined,color: Theme.of(context).colorScheme.onPrimary,)),
-                Text("12",style: TextStyle(color: Theme.of(context).colorScheme.onPrimary),),
+                Text("${commentLength}",style: TextStyle(color: Theme.of(context).colorScheme.onPrimary),),
                 Expanded(
                     child: Align(
                         alignment: Alignment.bottomRight,
@@ -130,23 +177,23 @@ class _postCardState extends State<postCard> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text("_bhagyodaya__varshney",style: TextStyle(color: Theme.of(context).colorScheme.tertiary,fontWeight: FontWeight.bold,fontSize: 15)),
+                          Text(widget.snap['username'],style: TextStyle(color: Theme.of(context).colorScheme.tertiary,fontWeight: FontWeight.bold,fontSize: 15)),
                           SizedBox(height: 10,),
-                          Text("Be Cool and Mast",style: TextStyle(color: Theme.of(context).colorScheme.primary,fontWeight: FontWeight.bold,fontSize: 15),)
+                          Text(widget.snap['caption']!,style: TextStyle(color: Theme.of(context).colorScheme.primary,fontWeight: FontWeight.bold,fontSize: 15),)
                         ],
                       )
                   ),
                   InkWell(
                     onTap: () {},
                     child: Container(
-                      child: Text("View all Comment",style: TextStyle(color: Theme.of(context).colorScheme.onPrimary,fontSize: 13),),
+                      child: Text("View all ${commentLength} Comments",style: TextStyle(color: Theme.of(context).colorScheme.onPrimary,fontSize: 13),),
                       padding: EdgeInsets.symmetric(vertical: 4)
                     ),
                   ),
                   Container(
                     child: Row(
                       children: [
-                        Text("10/11/2023",style: TextStyle(color: Theme.of(context).colorScheme.onPrimary,fontSize: 12),),
+                        Text(DateFormat.yMMMd().format(widget.snap['datepublished'].toDate()) ,style: TextStyle(fontSize: 12),),
                       ],
                     ),
                     padding: EdgeInsets.symmetric(vertical: 8),

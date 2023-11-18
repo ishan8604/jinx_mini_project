@@ -6,6 +6,7 @@ class UserModel {
   final String username;
   final String FullName;
   final String Password;
+  final String bio;
   final List following;
   final List follower;
 
@@ -15,6 +16,7 @@ class UserModel {
         required this.username,
         required this.FullName,
         required this.Password,
+        required this.bio,
         required this.following,
         required this.follower});
 
@@ -24,6 +26,7 @@ class UserModel {
     'email': email,
     'fullname': FullName,
     'Password': Password,
+    'bio':bio,
     'followers': follower,
     'following': following,
     'profileImg':""

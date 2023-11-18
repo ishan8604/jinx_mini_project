@@ -47,8 +47,9 @@ class auth_methods{
             email: email,
             FullName: FullName,
             Password: Password,
+            bio: "",
             follower: [],
-            following: []
+            following: [],
         );
         //add user to our database
         _firestore.collection('UsersDetails').doc(cred.user!.uid).set(user.toJson());

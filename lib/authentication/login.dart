@@ -29,6 +29,27 @@ class _loginState extends State<login> {
 
     if(errorMSG1 == "Success"){
       Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => home_screen()));
+      ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            width: MediaQuery.of(context).size.width,
+            content:
+            Container(
+              height: 50,
+              decoration: BoxDecoration(
+                  color: Colors.green,
+                  borderRadius: BorderRadius.all(Radius.circular(10))
+              ),
+              child: SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  children: [
+                    SizedBox(width: 3,),
+                    Icon(Icons.handshake_outlined),
+                    SizedBox(width: 5,),
+                    Text("Logged In Successfully",style: GoogleFonts.signikaNegative(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 8),textAlign: TextAlign.center,)
+                  ],),
+              ),
+            ),behavior: SnackBarBehavior.floating,backgroundColor: Colors.transparent,elevation: 0,));
     }
     else{ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -76,48 +97,51 @@ class _loginState extends State<login> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           SizedBox(height: height*0.05,),
-                          Text("Let's Sign you in.",style: GoogleFonts.kanit(fontSize: 30,fontWeight: FontWeight.bold,color: Theme.of(context).colorScheme.tertiary),),
+                          Text("Let's Sign you in.",style: GoogleFonts.kanit(fontSize: 30,fontWeight: FontWeight.bold,color: Color.fromRGBO(216, 249, 217, 1.0)),),
                           SizedBox(height: height*0.02,),
-                          Text("Welcome back.",style: GoogleFonts.workSans(fontSize: 25,color: Theme.of(context).colorScheme.tertiary)),
-                          Text("You've been missed!",style: GoogleFonts.workSans(fontSize: 25,color: Theme.of(context).colorScheme.tertiary)),
+                          Text("Welcome back.",style: GoogleFonts.workSans(fontSize: 25,color: Color.fromRGBO(216, 249, 217, 1.0))),
+                          Text("You've been missed!",style: GoogleFonts.workSans(fontSize: 25,color: Color.fromRGBO(216, 249, 217, 1.0))),
                           SizedBox(height: height*0.05,),
 
                           //Email TextField
                           Container(
                               width: MediaQuery.of(context).size.width,
                               decoration: BoxDecoration(
-                                  border: Border.all(width: 2,color: Color.fromRGBO(210, 210, 210, 1.0)),
-                                  borderRadius: BorderRadius.all(Radius.circular(10))
+                                border: Border.all(width: 2,color: Color.fromRGBO(210, 210, 210, 1.0)),
+                                borderRadius: BorderRadius.all(Radius.circular(10)),
                               ),
                               child: TextField(
-                                  style: TextStyle(color: Theme.of(context).colorScheme.tertiary),
+                                  style: TextStyle(color: Color.fromRGBO(216, 249, 217, 1.0)),
+                                  keyboardType: TextInputType.emailAddress,
                                   controller: emailController,
                                   decoration: InputDecoration(
-                                    hintText: 'Email',
-                                    hintStyle: TextStyle(color: Theme.of(context).colorScheme.tertiary),
-                                    border: InputBorder.none,
-                                    filled:true,
+                                      hintText: 'Email',
+                                      hintStyle: TextStyle(color: Color.fromRGBO(216, 249, 217, 1.0)),
+                                      border: InputBorder.none,
+                                      filled:true,
+                                      fillColor: Colors.transparent
                                   )
                               )
                           ),
                           SizedBox(height: height*0.01,),
-
                           //Password TextField
                           Container(
                               width: MediaQuery.of(context).size.width,
                               decoration: BoxDecoration(
-                                  border: Border.all(width: 2,color: Color.fromRGBO(210, 210, 210, 1.0)),
-                                  borderRadius: BorderRadius.all(Radius.circular(10))
+                                border: Border.all(width: 2,color: Color.fromRGBO(210, 210, 210, 1.0)),
+                                borderRadius: BorderRadius.all(Radius.circular(10)),
                               ),
                               child: TextField(
-                                  style: TextStyle(color: Theme.of(context).colorScheme.tertiary),
+                                  style: TextStyle(color: Color.fromRGBO(216, 249, 217, 1.0)),
                                   controller: passwordController,
                                   obscureText: obscureText,
+                                  keyboardType: TextInputType.visiblePassword,
                                   decoration: InputDecoration(
                                       hintText: 'Password',
-                                      hintStyle: TextStyle(color: Theme.of(context).colorScheme.tertiary),
+                                      hintStyle: TextStyle(color: Color.fromRGBO(216, 249, 217, 1.0)),
                                       border: InputBorder.none,
                                       filled:true,
+                                      fillColor: Colors.transparent,
                                       suffixIcon: GestureDetector(
                                         onTap: (){
                                           setState(() {
