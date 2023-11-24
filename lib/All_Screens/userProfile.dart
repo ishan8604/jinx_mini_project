@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:jinx/Edit_Profile/edit_profile.dart';
 
 
 class userProfile extends StatefulWidget {
@@ -15,6 +16,10 @@ class userProfile extends StatefulWidget {
 class _userProfileState extends State<userProfile> {
 
   var UserData ={};
+  String fullname ="";
+  String username ="";
+  String bio="";
+  String profileImg="";
   int postlength=0;
   int followers=0;
   int following=0;
@@ -31,6 +36,10 @@ class _userProfileState extends State<userProfile> {
       var postSnap = await FirebaseFirestore.instance.collection('posts').where('uid',isEqualTo: FirebaseAuth.instance.currentUser!.uid).get();
       UserData = Usersnap.data()!;
       postlength=postSnap.docs.length;
+      fullname = UserData['fullname'];
+      username = UserData['username'];
+      bio = UserData['bio'];
+      profileImg= UserData['profileImg'];
       followers = Usersnap.data()!['followers'].length;
       following = Usersnap.data()!['following'].length;
       setState(() {});
@@ -46,7 +55,7 @@ class _userProfileState extends State<userProfile> {
       appBar: AppBar(
         elevation: 0.0,
         backgroundColor: Colors.black,
-        title: Text("${UserData['fullname']}",style: GoogleFonts.ebGaramond(fontWeight: FontWeight.bold,color: Color.fromRGBO(216, 249, 217, 1.0)),),
+        title: fullname == ""?CircularProgressIndicator(color: Colors.white,):Text(fullname,style: GoogleFonts.ebGaramond(fontWeight: FontWeight.bold,color: Color.fromRGBO(216, 249, 217, 1.0)),),
         actions: [
           IconButton(onPressed: (){}, icon: Icon(Icons.add_circle_outline_outlined,color: Color.fromRGBO(216, 249, 217, 1.0),)),
           IconButton(onPressed: (){}, icon: Icon(Icons.more_horiz_sharp,color: Color.fromRGBO(216, 249, 217, 1.0),))
@@ -71,12 +80,18 @@ class _userProfileState extends State<userProfile> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Container(
-                              child: CircleAvatar(radius: 50,)
+                              width: 100,
+                            height: 100,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.all(Radius.circular(50)),
+                              color: Colors.black45
+                            ),
+                            child: profileImg==""?ClipRRect(child: Image.network("https://www.kindpng.com/picc/m/24-248253_user-profile-default-image-png-clipart-png-download.png",fit: BoxFit.cover,),borderRadius: BorderRadius.all(Radius.circular(50)),):ClipRRect(child: Image.network(profileImg,fit: BoxFit.cover,),borderRadius: BorderRadius.all(Radius.circular(50)),)
                           ),
                         ],
                       ),
                       Spacer(),
-                      Text("${UserData['username']}",style: GoogleFonts.tajawal(fontWeight: FontWeight.w900,fontSize: 20,color: Theme.of(context).colorScheme.tertiary),),
+                      username==""?CircularProgressIndicator(color: Colors.white,):Text("${UserData['username']}",style: GoogleFonts.tajawal(fontWeight: FontWeight.w900,fontSize: 20,color: Theme.of(context).colorScheme.tertiary),),
                       Spacer(),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -107,7 +122,7 @@ class _userProfileState extends State<userProfile> {
                       ),
                       Spacer(),
                       Spacer(),
-                      Text("${UserData['bio']}",style:GoogleFonts.heebo(color: Theme.of(context).colorScheme.tertiary,fontWeight: FontWeight.bold,fontSize: 15)),
+                      bio==null?CircularProgressIndicator(color: Colors.white,):Text("${UserData['bio']}",style:GoogleFonts.heebo(color: Theme.of(context).colorScheme.tertiary,fontWeight: FontWeight.bold,fontSize: 15)),
                       Spacer(),
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
@@ -115,7 +130,7 @@ class _userProfileState extends State<userProfile> {
                           Spacer(),
                           Container(
                             child: ElevatedButton(
-                                onPressed: (){},
+                                onPressed: (){Navigator.push(context, MaterialPageRoute(builder: (context)=>edit_profile()));},
                                 style: ButtonStyle(
                                   backgroundColor: MaterialStateProperty.all<Color>(Theme.of(context).colorScheme.onPrimary),
                                   shape: MaterialStateProperty.all(

@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:jinx/Splash_Screen/splash_Screen.dart';
 import 'package:jinx/Theme/theme.dart';
@@ -8,7 +9,8 @@ final FirebaseAuth _auth = FirebaseAuth.instance;
 
 void main() async {
     WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+  await Firebase.initializeApp(
+  );
   runApp(MaterialApp(
     debugShowCheckedModeBanner: false,
     theme: lightTheme,

@@ -1,9 +1,14 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:jinx/All_Screens/comment_screen.dart';
 import 'package:intl/intl.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:share_plus/share_plus.dart';
+import 'package:http/http.dart' as http;
 
 import '../firestore_methods.dart';
 
@@ -87,8 +92,24 @@ class _postCardState extends State<postCard> {
                                       SizedBox(
                                         width: 10,
                                       ),
-                                      Text("Share",
-                                          style: GoogleFonts.notoSans(color: Colors.white)),
+                                      TextButton(onPressed: ()async{
+                                          final urlImage = widget.snap['postImg'];
+                                          final url = Uri.parse(urlImage);
+                                          final response = await http.get(url);
+                                          Share.shareXFiles(
+                                              [
+                                            XFile.fromData(
+                                                response.bodyBytes,
+                                                name:widget.snap['username'],
+                                                mimeType: 'image/png'
+                                            ),
+                                          ],
+                                            subject: widget.snap['username'],
+                                            text: "@"+widget.snap['username']
+                                          );
+
+                                      },
+                                          child: Text("Share", style: GoogleFonts.notoSans(color: Colors.white))),
                                     ],
                                   ),
                                   onPressed: () async {},

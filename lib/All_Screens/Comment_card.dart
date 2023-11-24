@@ -1,8 +1,12 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+
+import '../firestore_methods.dart';
 
 class CommentCard extends StatefulWidget {
-  const CommentCard({super.key});
+  final snap;
+  const CommentCard({super.key,required this.snap});
 
   @override
   State<CommentCard> createState() => _CommentCardState();
@@ -13,6 +17,12 @@ class _CommentCardState extends State<CommentCard> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    getCurrentUID();
+  }
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  String uid ='';
+  void getCurrentUID()async{
+    uid = await _auth.currentUser!.uid;
   }
   @override
   Widget build(BuildContext context) {
@@ -40,12 +50,12 @@ class _CommentCardState extends State<CommentCard> {
                         text: TextSpan(
                             children: [
                               TextSpan(
-                                  text: "_bhagyodaya__varshney",
+                                  text: widget.snap['username'],
                                   style: TextStyle(fontWeight: FontWeight.bold,color: Colors.white,fontSize: 16)
                               ),
                               TextSpan(text: "  "),
                               TextSpan(
-                                  text: "WOW",
+                                  text: widget.snap['text'],
                                   style: TextStyle(color: Colors.white,fontSize: 16)
                               )
                             ]
@@ -53,14 +63,17 @@ class _CommentCardState extends State<CommentCard> {
                     ),
                     Row(
                       children: [
-                        IconButton(onPressed: ()async{},
-                          icon: Icon(Icons.favorite_outline_rounded,size: 15,color: Colors.white,),),
-                        Text("2",style: TextStyle(fontSize: 10,color: Colors.white),)
+                        IconButton(onPressed: ()async{
+                          await FirestoreMethods().likeComment(widget.snap['postId'],uid,widget.snap['commentId'],widget.snap['likes']);
+                        },
+                          icon: widget.snap['likes'].contains(uid) ? Icon(Icons.favorite,color: Colors.red,size: 15,) : Icon(Icons.favorite_outline_rounded,size: 15,),),
+                        Text('${widget.snap['likes'].length}',style: TextStyle(fontSize: 10),)
                       ],
                     ),
                     Padding(padding: EdgeInsets.only(top: 4),
-                      child: Text("10/11/2023",
-                        style: TextStyle(fontSize: 12,color: Colors.white),
+                      child: Text(
+                        DateFormat.yMMMd().format(widget.snap['datePublished'].toDate()),
+                        style: TextStyle(fontSize: 12),
                       ),
                     )
                   ]

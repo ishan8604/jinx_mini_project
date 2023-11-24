@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:jinx/post_Data/postCard.dart';
+import 'package:jinx/Dm_window/dm_window.dart';
 
 class feed extends StatefulWidget {
   const feed({super.key});
@@ -21,7 +22,7 @@ class _feedState extends State<feed> {
             backgroundColor: Colors.black,
           title: Text("JINX",style: GoogleFonts.sriracha(color: Color.fromRGBO(216, 249, 217, 1.0)),),
           actions: [
-            IconButton(onPressed: (){}, icon: Icon(Icons.messenger_outline,color: Color.fromRGBO(216, 249, 217, 1.0),)),
+            IconButton(onPressed: (){Navigator.push(context, MaterialPageRoute(builder: (context)=>dm_window()));}, icon: Icon(Icons.messenger_outline,color: Color.fromRGBO(216, 249, 217, 1.0),)),
             ],
           ),
         body: StreamBuilder(
