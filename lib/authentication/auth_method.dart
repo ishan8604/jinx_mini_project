@@ -77,4 +77,7 @@ class auth_methods{
     }
     return registerWarning;
   }
+  Future<void> signOut()async{
+    await _auth.signOut();
+  }
 }

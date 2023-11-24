@@ -22,17 +22,26 @@ class postCard extends StatefulWidget {
 
 class _postCardState extends State<postCard> {
   int commentLength=0;
+  bool profileImag=true;
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     getCurrentUID();
     getComments();
+    getprofileImg();
   }
   final FirebaseAuth _auth = FirebaseAuth.instance;
   String uid ='';
   void getCurrentUID()async{
     uid = await _auth.currentUser!.uid;
+  }
+  void getprofileImg(){
+    if(widget.snap['profileImg']==""){
+      setState(() {
+        profileImag=false;
+      });
+    }
   }
   void getComments() async{
     try {
@@ -57,10 +66,15 @@ class _postCardState extends State<postCard> {
                   .copyWith(right: 0),
               child: Row(
                 children: [
-                  CircleAvatar(
-                    radius: 16,
-                  ),
-                  Expanded(
+                  Container(
+                      width: 40,
+                      height: 40,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(20)),
+                          color: Colors.black
+                      ),
+                      child: widget.snap['profileImg']==null?ClipRRect(child: Image.network("https://www.kindpng.com/picc/m/24-248253_user-profile-default-image-png-clipart-png-download.png",fit: BoxFit.cover,),borderRadius: BorderRadius.all(Radius.circular(50)),):ClipRRect(child: Image.network(widget.snap['profileImg'],fit: BoxFit.cover,),borderRadius: BorderRadius.all(Radius.circular(50)),)
+                  ),                  Expanded(
                       child: Padding(
                         padding: EdgeInsets.only(left: 8),
                         child: Column(
@@ -76,7 +90,8 @@ class _postCardState extends State<postCard> {
                       onPressed: () {
                         showDialog(
                             context: context,
-                            builder: (context) => SimpleDialog(
+                            builder: (context) => widget.snap['uid']==uid?
+                                SimpleDialog(
                               backgroundColor: Colors.black87,
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.all(Radius.circular(20))),
@@ -125,8 +140,53 @@ class _postCardState extends State<postCard> {
                                       SizedBox(
                                         width: 10,
                                       ),
-                                      Text("Delete",
-                                          style: GoogleFonts.notoSans(color: Colors.white)),
+                                      TextButton(
+                                        onPressed: ()async{
+                                          FirestoreMethods().deletePost(widget.snap['postId']);
+                                          Navigator.of(context).pop();
+                                        },
+                                        child: Text("Delete",
+                                            style: GoogleFonts.notoSans(color: Colors.white)),
+                                      ),
+                                    ],
+                                  ),
+                                  onPressed: () async {},
+                                ),
+                              ],
+                            ):SimpleDialog(
+                              backgroundColor: Colors.black87,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.all(Radius.circular(20))),
+                              children: [
+                                SimpleDialogOption(
+                                  padding: const EdgeInsets.all(20),
+                                  child: Row(
+                                    children: [
+                                      Icon(
+                                        Icons.telegram_outlined,
+                                        color: Theme.of(context).colorScheme.onPrimary,
+                                      ),
+                                      SizedBox(
+                                        width: 10,
+                                      ),
+                                      TextButton(onPressed: ()async{
+                                        final urlImage = widget.snap['postImg'];
+                                        final url = Uri.parse(urlImage);
+                                        final response = await http.get(url);
+                                        Share.shareXFiles(
+                                            [
+                                              XFile.fromData(
+                                                  response.bodyBytes,
+                                                  name:widget.snap['username'],
+                                                  mimeType: 'image/png'
+                                              ),
+                                            ],
+                                            subject: widget.snap['username'],
+                                            text: "@"+widget.snap['username']
+                                        );
+
+                                      },
+                                          child: Text("Share", style: GoogleFonts.notoSans(color: Colors.white))),
                                     ],
                                   ),
                                   onPressed: () async {},

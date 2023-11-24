@@ -108,7 +108,7 @@ class _home_screenState extends State<home_screen> {
                   backgroundColor: Colors.white),
               BottomNavigationBarItem(
                   icon: Icon(
-                    Icons.circle_outlined,
+                    Icons.manage_accounts_outlined,
                     color: _page == 4
                         ? Theme.of(context).colorScheme.onPrimary
                         : Theme.of(context).colorScheme.secondary,

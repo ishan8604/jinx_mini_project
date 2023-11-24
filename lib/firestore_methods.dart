@@ -1,6 +1,8 @@
+import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:jinx/storage_methods.dart';
 import 'package:uuid/uuid.dart';
 import 'package:flutter/material.dart';
@@ -8,6 +10,7 @@ import 'models/userPostModel.dart';
 
 class FirestoreMethods {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final FirebaseAuth _auth = FirebaseAuth.instance;
   String res = "";
   bool likeOrNot=false;
   String commentWarning="";
@@ -100,4 +103,27 @@ class FirestoreMethods {
     }
     catch(e){print(e.toString());}
   }
+
+  Future<void> deletePost(String postId) async{
+    try{
+      await _firestore.collection('posts').doc(postId).delete();
+    }catch(err){
+      print(err.toString());
+    }
+  }
+  
+  Future<String> updateBio(String bio,Uint8List? file)async{
+    try{
+      String photoUrl = await StorageMethods().uploadImageToStorage("profilepics", file!, false);
+      await _firestore.collection("UsersDetails").doc(_auth.currentUser?.uid).update(
+          {"bio":bio,"profileImg":photoUrl});
+      res = "Success";
+    }
+    catch(err){
+      res=err.toString();
+      print(res);
+    }
+    return res;
+  }
+
 }

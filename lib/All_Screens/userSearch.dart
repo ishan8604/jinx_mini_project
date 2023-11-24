@@ -1,9 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:jinx/All_Screens/anotherUserProfile.dart';
-import 'package:jinx/All_Screens/feed.dart';
 import 'package:jinx/Home_Screen/home_screen.dart';
 
 
@@ -18,11 +15,13 @@ class _userSearchState extends State<userSearch> {
 
   TextEditingController searchUser = TextEditingController();
   bool isShowUser = false;
+  List follower=[];
+  List following=[];
 
   @override
-  void dispose() {
-    // TODO: implement dispose
-    super.dispose();
+  void initState(){
+    // TODO: implement initState
+    super.initState();
   }
   @override
   Widget build(BuildContext context) {
@@ -68,10 +67,18 @@ class _userSearchState extends State<userSearch> {
             return Center(child: CircularProgressIndicator(color: Colors.black,),);
           }
           return ListView.builder(
-              itemCount: (snapshot.data! as dynamic).docs.length,
+              itemCount: (snapshot.data!).docs.length,
               itemBuilder: (context,index){
                 return GestureDetector(
-                  onTap: (){Navigator.push(context, MaterialPageRoute(builder: (context)=>anotherUserProfile()));},
+                  onTap: (){Navigator.push(context, MaterialPageRoute(builder: (context)=>anotherUserProfile(
+                      username: (snapshot.data!).docs![index]['username'],
+                      fullname: (snapshot.data!).docs![index]['fullname'],
+                      following: (snapshot.data!).docs![index]['following'],
+                      follower: (snapshot.data!).docs![index]['followers'],
+                      bio: (snapshot.data!).docs![index]['bio'],
+                    profileImg: (snapshot.data!).docs![index]['profileImg'],
+                    uid: (snapshot.data!).docs![index]['uid'],
+                  )));},
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Container(
@@ -99,7 +106,8 @@ class _userSearchState extends State<userSearch> {
           );
         },
 
-      ):FutureBuilder(
+      ):
+      FutureBuilder(
           future:   FirebaseFirestore.instance.collection('posts').get(),
           builder: (context,snapshot){
             if(!snapshot.hasData){

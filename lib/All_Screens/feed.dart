@@ -34,7 +34,7 @@ class _feedState extends State<feed> {
             return ListView.builder(
               itemCount:  snapshot.data!.docs.length,
               itemBuilder: (context,index) => postCard(
-                snap: snapshot.data!.docs[index].data(),
+                snap: snapshot.data!.docs![index].data(),
               ),
             );
           },
@@ -44,3 +44,4 @@ class _feedState extends State<feed> {
     );
   }
 }
+//(snapshot.data!).docs![index]['profileImg']

@@ -1,12 +1,11 @@
+import 'dart:async';
 import 'dart:typed_data';
-import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
-
 import '../firestore_methods.dart';
 
 
@@ -23,6 +22,8 @@ class _addPostState extends State<addPost> {
   bool _isLoading = false;
   bool choicechip = false;
 
+  int finaltime=0;
+
   String username="";
   String uid="";
 
@@ -30,9 +31,13 @@ class _addPostState extends State<addPost> {
   _selectedTime()async{
     TimeOfDay? picker = await showTimePicker(context: context, initialTime: time);
     if(picker != null){
+      int hour = (DateTime.now().hour-time.hour).abs()*3600;
+      int min = (DateTime.now().minute-time.minute).abs()*60;
       setState(() {
         time = picker;
+        finaltime = hour+min;
       });
+
     }
   }
   void getalldetails() async {
@@ -49,42 +54,85 @@ class _addPostState extends State<addPost> {
     setState(() {
       _isLoading = true;
     });
-    try{
-      String res = await FirestoreMethods().uploadPost(
-          controllerCaption.text,
-          uid,
-          username,
-          controllerlocation.text,
-          _file!);
-      if(res=="Success"){
-        setState(() {
-          _isLoading = false;
-        });
+    if(choicechip==false){
+      try{
+        String res = await FirestoreMethods().uploadPost(
+            controllerCaption.text,
+            uid,
+            username,
+            controllerlocation.text,
+            _file!);
+        if(res=="Success"){
+          setState(() {
+            _isLoading = false;
+          });
+          ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                  content: Text("Posted!")
+              )
+          );
+          clearImg();
+        }
+        else{
+          setState(() {
+            _isLoading = false;
+          });
+          ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                  content: Text(res)
+              )
+          );
+        }
+      }catch(e){
         ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-                content: Text("Posted!")
+                content: Text(e.toString())
             )
         );
-        clearImg();
       }
-      else{
-        setState(() {
-          _isLoading = false;
+    }
+    else{
+      try{
+        Timer(Duration(seconds: finaltime), () async{
+          String res = await FirestoreMethods().uploadPost(
+              controllerCaption.text,
+              uid,
+              username,
+              controllerlocation.text,
+              _file!);
+          if(res=="Success"){
+            setState(() {
+              _isLoading = false;
+            });
+            ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                    content: Text("Posted!")
+                )
+            );
+            clearImg();
+          }
+          else{
+            setState(() {
+              _isLoading = false;
+            });
+            ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                    content: Text(res)
+                )
+            );
+          }
         });
+
+      }catch(e){
         ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-                content: Text(res)
+                content: Text(e.toString())
             )
         );
       }
-    }catch(e){
-      ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-              content: Text(e.toString())
-          )
-      );
     }
   }
+
 
   TextEditingController controllerCaption = TextEditingController();
   TextEditingController controllerlocation = TextEditingController();
@@ -322,7 +370,18 @@ class _addPostState extends State<addPost> {
         centerTitle: false,
         actions: [
           TextButton(
-              onPressed: () => _postImage(uid, username),
+              onPressed: (){
+                if(choicechip==false)   _postImage(uid, username);
+                else{
+                  ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        backgroundColor: Colors.green,
+                          content: Text("Your Post is Scheduled For"+time.hour.toString()+time.minute.toString())
+                      )
+                  );
+                  _postImage(uid, username);
+                }
+              },
               child: Text(
                 "Share",
                 style: GoogleFonts.signikaNegative(
@@ -368,9 +427,11 @@ class _addPostState extends State<addPost> {
                     controller: controllerCaption,
                     maxLines: null,
                     decoration: InputDecoration(
-                      hintText: ' Write a Caption',
+                      hintText: 'Write a Caption',
                       hintStyle: TextStyle(color: Theme.of(context).colorScheme.onPrimary,fontWeight: FontWeight.w300),
                       border: InputBorder.none,
+                      filled: true,
+                      fillColor: Colors.transparent
                     ),
                   ),
                 ),
@@ -386,10 +447,11 @@ class _addPostState extends State<addPost> {
               height: 50,
               child: TextFormField(
                 controller: controllerlocation,
+                style: TextStyle(color: Color.fromRGBO(216, 249, 217, 1.0),fontWeight: FontWeight.bold),
                 decoration: InputDecoration(
                   prefixIcon: Icon(Icons.location_on_outlined,color: Theme.of(context).colorScheme.onPrimary,size:30 ,),
                   hintText: 'Add Location',
-                  hintStyle: TextStyle(color: Theme.of(context).colorScheme.onPrimary,fontWeight: FontWeight.w300),
+                  hintStyle: TextStyle(color: Colors.white,fontWeight: FontWeight.w300),
                   filled: true,
                   fillColor: Colors.transparent,
                   border: InputBorder.none,
@@ -443,9 +505,10 @@ class _addPostState extends State<addPost> {
                                             },
                                             child: Text("Choose Time")
                                         ),
-                                        Text("${time.hour}:${time.minute}",style: TextStyle(color: Colors.white),),
+                                        //Text("${time.hour}:${time.minute}",style: TextStyle(color: Colors.white),),
                                       ],
-                                    ),                                Padding(
+                                    ),
+                                Padding(
                                   padding: const EdgeInsets.only(left: 15.0, right: 15.0),
                                   child: Divider(
                                     thickness: 2,
@@ -478,11 +541,18 @@ class _addPostState extends State<addPost> {
                   ),
                 ],
               )),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 8.0,right: 8.0),
+              child: Divider(thickness: 1.5,color: Colors.grey,),
+            ),
+            Row(
+              children: [
+                Text("Choosed Time:",style: GoogleFonts.notoSans(color: Colors.white,fontSize: 15)),
+                SizedBox(width: 20,),
+                Text(time.hour.toString()+":"+time.minute.toString(),style: GoogleFonts.notoSans(color: Colors.white,fontSize: 15,fontWeight: FontWeight.bold),)
+              ],
             )
-            // Padding(
-            //   padding: const EdgeInsets.only(left: 8.0,right: 8.0),
-            //   child: Divider(thickness: 1.5,color: Colors.grey,),
-            // ),
           ],
         ),
       ),

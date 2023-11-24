@@ -92,8 +92,7 @@ class _comment_screenState extends State<comment_screen> {
                     padding: EdgeInsets.only(left: 10,right: 10,bottom: 10,top: 10),
                     child: Card(
                       color: Colors.transparent,
-                      elevation: 15,
-                      shadowColor: Colors.white54,
+                      elevation: 0,
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(20), // Image border
                         child: SizedBox.fromSize(
@@ -108,7 +107,7 @@ class _comment_screenState extends State<comment_screen> {
                     child: Row(
                       children: [
                         widget.snap['likes'].contains(uid) ? Icon(Icons.favorite,color: Colors.red,) : Icon(Icons.favorite_outline_rounded,),
-                        Text('${widget.snap['likes'].length}',style: GoogleFonts.tinos(fontSize: 15,fontWeight: FontWeight.bold),),
+                        Text('${widget.snap['likes'].length}',style: GoogleFonts.tinos(fontSize: 15,fontWeight: FontWeight.bold,color: Colors.white),),
                         SizedBox(width: 30,),
                         IconButton(
                             onPressed: (){},
