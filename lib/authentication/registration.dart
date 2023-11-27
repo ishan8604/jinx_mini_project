@@ -48,8 +48,10 @@ class _registrationState extends State<registration> {
                 Text("Successfully Ragistered",style: GoogleFonts.signikaNegative(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 8),)
               ],),
           )
-      ),behavior: SnackBarBehavior.floating,backgroundColor: Colors.transparent,elevation: 0,));}
-    else{ScaffoldMessenger.of(context).showSnackBar(
+      ),behavior: SnackBarBehavior.floating,backgroundColor: Colors.transparent,elevation: 0,));
+    }
+    else{
+      ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           width: MediaQuery.of(context).size.width,
           content:
@@ -69,7 +71,8 @@ class _registrationState extends State<registration> {
                   Text(errorMSG,style: GoogleFonts.signikaNegative(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 8),textAlign: TextAlign.center,)
                 ],),
             ),
-          ),behavior: SnackBarBehavior.floating,backgroundColor: Colors.transparent,elevation: 0,));}
+          ),behavior: SnackBarBehavior.floating,backgroundColor: Colors.transparent,elevation: 0,));
+    }
   }
 
   @override
@@ -91,7 +94,7 @@ class _registrationState extends State<registration> {
                   child: Column(
                     children: [
                       Text("Set up your Jinx account",style:GoogleFonts.kanit(fontSize: 24,fontWeight: FontWeight.w400,color:Theme.of(context).colorScheme.tertiary,),),
-                      Text("Start your journey with us",style:GoogleFonts.kanit(fontSize: 15,color:Theme.of(context).colorScheme.tertiary,),),
+                      Text("Start your journey with us",style:GoogleFonts.kanit(fontSize: 15,color:Color.fromRGBO(216, 249, 217, 1.0),),),
                       SizedBox(height: height*0.08,),
 
                       //TextField for User Name
@@ -102,11 +105,11 @@ class _registrationState extends State<registration> {
                               borderRadius: BorderRadius.all(Radius.circular(10))
                           ),
                           child: TextField(
-                              style: TextStyle(color: Theme.of(context).colorScheme.tertiary),
+                              style: TextStyle(color: Color.fromRGBO(216, 249, 217, 1.0)),
                               controller: nameController,
                               decoration: InputDecoration(
                                 hintText: 'Full Name',
-                                hintStyle: TextStyle(color: Theme.of(context).colorScheme.tertiary),
+                                hintStyle: TextStyle(color: Color.fromRGBO(216, 249, 217, 1.0)),
                                 border: InputBorder.none,
                                 filled:true,
                                   fillColor: Colors.transparent
@@ -123,11 +126,11 @@ class _registrationState extends State<registration> {
                               borderRadius: BorderRadius.all(Radius.circular(10))
                           ),
                           child: TextField(
-                              style: TextStyle(color: Theme.of(context).colorScheme.tertiary),
+                              style: TextStyle(color: Color.fromRGBO(216, 249, 217, 1.0)),
                               controller: usernameController,
                               decoration: InputDecoration(
                                 hintText: 'Username',
-                                hintStyle: TextStyle(color: Theme.of(context).colorScheme.tertiary),
+                                hintStyle: TextStyle(color: Color.fromRGBO(216, 249, 217, 1.0)),
                                 border: InputBorder.none,
                                 filled:true,
                                   fillColor: Colors.transparent
@@ -144,11 +147,11 @@ class _registrationState extends State<registration> {
                               borderRadius: BorderRadius.all(Radius.circular(10))
                           ),
                           child: TextField(
-                              style: TextStyle(color: Theme.of(context).colorScheme.tertiary),
+                              style: TextStyle(color: Color.fromRGBO(216, 249, 217, 1.0)),
                               controller: emailController,
                               decoration: InputDecoration(
                                 hintText: 'Email',
-                                hintStyle: TextStyle(color: Theme.of(context).colorScheme.tertiary),
+                                hintStyle: TextStyle(color: Color.fromRGBO(216, 249, 217, 1.0)),
                                 border: InputBorder.none,
                                 filled:true,
                                   fillColor: Colors.transparent
@@ -165,12 +168,12 @@ class _registrationState extends State<registration> {
                               borderRadius: BorderRadius.all(Radius.circular(10))
                           ),
                           child: TextField(
-                              style: TextStyle(color: Theme.of(context).colorScheme.tertiary),
+                              style: TextStyle(color: Color.fromRGBO(216, 249, 217, 1.0)),
                               controller: passwordController,
                               obscureText: obscureText,
                               decoration: InputDecoration(
                                   hintText: 'Password',
-                                  hintStyle: TextStyle(color: Theme.of(context).colorScheme.tertiary),
+                                  hintStyle: TextStyle(color: Color.fromRGBO(216, 249, 217, 1.0)),
                                   border: InputBorder.none,
                                   filled:true,
                                   fillColor: Colors.transparent,
@@ -195,12 +198,12 @@ class _registrationState extends State<registration> {
                               borderRadius: BorderRadius.all(Radius.circular(10))
                           ),
                           child: TextField(
-                              style: TextStyle(color: Theme.of(context).colorScheme.tertiary),
+                              style: TextStyle(color: Color.fromRGBO(216, 249, 217, 1.0)),
                               controller: confirmpasswordController,
                               obscureText: obscureText1,
                               decoration: InputDecoration(
                                   hintText: 'Confirm Your Password',
-                                  hintStyle: TextStyle(color: Theme.of(context).colorScheme.tertiary),
+                                  hintStyle: TextStyle(color: Color.fromRGBO(216, 249, 217, 1.0)),
                                   border: InputBorder.none,
                                   filled:true,
                                   fillColor: Colors.transparent,
@@ -219,8 +222,8 @@ class _registrationState extends State<registration> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Text("I agree with Jinx",style: TextStyle(color: Theme.of(context).colorScheme.secondary)),
-                          TextButton(onPressed: (){}, child: Text("Terms & Privacy Policy",style: TextStyle(color: Theme.of(context).colorScheme.tertiary,fontWeight: FontWeight.bold),)),
+                          Text("I agree with Jinx",style: TextStyle(color: Color.fromRGBO(69, 191, 85, 1.0))),
+                          TextButton(onPressed: (){}, child: Text("Terms & Privacy Policy",style: TextStyle(color: Color.fromRGBO(216, 249, 217, 1.0),fontWeight: FontWeight.bold),)),
                         ],
                       ),
                       Text(errorMSG,style: TextStyle(color: Colors.red,fontWeight: FontWeight.bold),),
@@ -248,7 +251,7 @@ class _registrationState extends State<registration> {
 
 
                             style: ButtonStyle(
-                              backgroundColor: MaterialStateProperty.all<Color>(Color.fromRGBO(4, 77, 41, 1.0)),
+                              backgroundColor: MaterialStateProperty.all<Color>(Color.fromRGBO(22, 128, 57, 1.0)),
                               shape: MaterialStateProperty.all(
                                 RoundedRectangleBorder(
                                   // Change your radius here
@@ -256,17 +259,17 @@ class _registrationState extends State<registration> {
                                 ),
                               ),
                             ),
-                            child: Text("Sign up",)
+                            child: Text("Sign up",style: TextStyle(color: Color.fromRGBO(0, 38, 28, 1.0),fontWeight: FontWeight.bold,fontSize: 15),)
                         ),
                       ),
                       SizedBox(height: height*0.01,),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Text("Already have an Account?",style: TextStyle(color: Theme.of(context).colorScheme.secondary),),
+                          Text("Already have an Account?",style: TextStyle(color: Color.fromRGBO(69, 191, 85, 1.0)),),
                           TextButton(onPressed: (){
                             Navigator.push(context, MaterialPageRoute(builder: (context)=>login()));
-                          }, child: Text("Sign In",style: TextStyle(color: Theme.of(context).colorScheme.tertiary,fontWeight: FontWeight.bold),)),
+                          }, child: Text("Sign In",style: TextStyle(color: Color.fromRGBO(216, 249, 217, 1.0),fontWeight: FontWeight.bold),)),
                         ],
                       ),
                     ],

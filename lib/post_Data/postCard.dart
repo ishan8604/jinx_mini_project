@@ -73,7 +73,7 @@ class _postCardState extends State<postCard> {
                           borderRadius: BorderRadius.all(Radius.circular(20)),
                           color: Colors.black
                       ),
-                      child: widget.snap['profileImg']==null?ClipRRect(child: Image.network("https://www.kindpng.com/picc/m/24-248253_user-profile-default-image-png-clipart-png-download.png",fit: BoxFit.cover,),borderRadius: BorderRadius.all(Radius.circular(50)),):ClipRRect(child: Image.network(widget.snap['profileImg'],fit: BoxFit.cover,),borderRadius: BorderRadius.all(Radius.circular(50)),)
+                      child: widget.snap['profileImg']==null?ClipRRect(child: Image.network("https://www.wissetuinen.nl/wp-content/uploads/2016/01/profiel-icoon.jpg",fit: BoxFit.cover,),borderRadius: BorderRadius.all(Radius.circular(50)),):ClipRRect(child: Image.network(widget.snap['profileImg'],fit: BoxFit.cover,),borderRadius: BorderRadius.all(Radius.circular(50)),)
                   ),                  Expanded(
                       child: Padding(
                         padding: EdgeInsets.only(left: 8),
@@ -81,8 +81,8 @@ class _postCardState extends State<postCard> {
                           mainAxisSize: MainAxisSize.min,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(widget.snap['username'],style: TextStyle(color: Theme.of(context).colorScheme.tertiary,fontWeight: FontWeight.bold),),
-                            Text(widget.snap['location']!,style: TextStyle(color: Theme.of(context).colorScheme.onPrimary),)
+                            Text(widget.snap['username'],style: TextStyle(color: Color.fromRGBO(216, 249, 217, 1.0),fontWeight: FontWeight.bold),),
+                            Text(widget.snap['location']!,style: TextStyle(color: Colors.white),)
                           ],
                         ),
                       )),
@@ -135,7 +135,7 @@ class _postCardState extends State<postCard> {
                                     children: [
                                       Icon(
                                         Icons.telegram_outlined,
-                                        color: Theme.of(context).colorScheme.onPrimary,
+                                        color: Colors.white,
                                       ),
                                       SizedBox(
                                         width: 10,
@@ -164,7 +164,7 @@ class _postCardState extends State<postCard> {
                                     children: [
                                       Icon(
                                         Icons.telegram_outlined,
-                                        color: Theme.of(context).colorScheme.onPrimary,
+                                        color: Colors.white,
                                       ),
                                       SizedBox(
                                         width: 10,
@@ -195,7 +195,7 @@ class _postCardState extends State<postCard> {
                             )
                         );
                       },
-                      icon: Icon(Icons.more_vert_outlined,color: Theme.of(context).colorScheme.onPrimary,))
+                      icon: Icon(Icons.more_vert_outlined,color: Colors.white,))
                 ],
               ),
             ),
@@ -224,7 +224,7 @@ class _postCardState extends State<postCard> {
                     },
                     icon: widget.snap['likes'].contains(uid) ? Icon(Icons.favorite,color: Colors.red,) : Icon(Icons.favorite_outline_rounded,)
                 ),
-                Text('${widget.snap['likes'].length}',style: TextStyle(color: Theme.of(context).colorScheme.onPrimary),),
+                Text('${widget.snap['likes'].length}',style: TextStyle(color: Colors.white),),
                 SizedBox(width: 30,),
                 IconButton(
                     onPressed: (){
@@ -235,14 +235,14 @@ class _postCardState extends State<postCard> {
                         snap:widget.snap,
                       ));
                       },
-                    icon: Icon(Icons.comment_outlined,color: Theme.of(context).colorScheme.onPrimary,)),
-                Text("${commentLength}",style: TextStyle(color: Theme.of(context).colorScheme.onPrimary),),
+                    icon: Icon(Icons.comment_outlined,color: Colors.white,)),
+                Text("${commentLength}",style: TextStyle(color: Colors.white),),
                 Expanded(
                     child: Align(
                         alignment: Alignment.bottomRight,
                         child: IconButton(
                           onPressed: () {},
-                          icon: Icon(Icons.bookmark_border_rounded,color: Theme.of(context).colorScheme.onPrimary,),
+                          icon: Icon(Icons.bookmark_border_rounded,color: Colors.white,),
                         )))
               ],
             ),
@@ -258,16 +258,16 @@ class _postCardState extends State<postCard> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(widget.snap['username'],style: TextStyle(color: Theme.of(context).colorScheme.tertiary,fontWeight: FontWeight.bold,fontSize: 15)),
+                          Text(widget.snap['username'],style: TextStyle(color: Color.fromRGBO(216, 249, 217, 1.0),fontWeight: FontWeight.bold,fontSize: 15)),
                           SizedBox(height: 10,),
-                          Text(widget.snap['caption']!,style: TextStyle(color: Theme.of(context).colorScheme.primary,fontWeight: FontWeight.bold,fontSize: 15),)
+                          Text(widget.snap['caption']!,style: TextStyle(color: Color.fromRGBO(22, 128, 57, 1.0),fontWeight: FontWeight.bold,fontSize: 15),)
                         ],
                       )
                   ),
                   InkWell(
                     onTap: () {},
                     child: Container(
-                      child: Text("View all ${commentLength} Comments",style: TextStyle(color: Theme.of(context).colorScheme.onPrimary,fontSize: 13),),
+                      child: Text("View all ${commentLength} Comments",style: TextStyle(color: Colors.white,fontSize: 13),),
                       padding: EdgeInsets.symmetric(vertical: 4)
                     ),
                   ),

@@ -67,15 +67,15 @@ class _home_screenState extends State<home_screen> {
         bottomNavigationBar: CupertinoTabBar(
             height: height*0.1,
             backgroundColor: Colors.black,
-            activeColor: Colors.red,
+            //activeColor: Colors.red,
 
             items: [
               BottomNavigationBarItem(
                   icon: Icon(
                     Icons.home_outlined,
                     color: _page == 0
-                        ? Theme.of(context).colorScheme.onPrimary
-                        : Theme.of(context).colorScheme.secondary,
+                        ? Colors.white
+                        : Color.fromRGBO(69, 191, 85, 1.0),
                     size: _page == 0 ? 35:30,
                   ),
                   backgroundColor: Colors.white),
@@ -83,8 +83,8 @@ class _home_screenState extends State<home_screen> {
                   icon: Icon(
                     Icons.search_outlined,
                     color: _page == 1
-                        ? Theme.of(context).colorScheme.onPrimary
-                        : Theme.of(context).colorScheme.secondary,
+                        ? Colors.white
+                        : Color.fromRGBO(69, 191, 85, 1.0),
                     size: _page == 1 ? 35:30,
                   ),
                   backgroundColor: Colors.white),
@@ -92,8 +92,8 @@ class _home_screenState extends State<home_screen> {
                   icon: Icon(
                     Icons.add_box_outlined,
                     color: _page == 2
-                        ? Theme.of(context).colorScheme.onPrimary
-                        : Theme.of(context).colorScheme.secondary,
+                        ? Colors.white
+                        : Color.fromRGBO(69, 191, 85, 1.0),
                     size: _page == 2 ? 35:30,
                   ),
                   backgroundColor: Colors.white),
@@ -101,8 +101,8 @@ class _home_screenState extends State<home_screen> {
                   icon: Icon(
                     Icons.favorite_outline,
                     color: _page == 3
-                        ? Theme.of(context).colorScheme.onPrimary
-                        : Theme.of(context).colorScheme.secondary,
+                        ? Colors.white
+                        : Color.fromRGBO(69, 191, 85, 1.0),
                     size: _page == 3 ? 35:30,
                   ),
                   backgroundColor: Colors.white),
@@ -110,8 +110,8 @@ class _home_screenState extends State<home_screen> {
                   icon: Icon(
                     Icons.manage_accounts_outlined,
                     color: _page == 4
-                        ? Theme.of(context).colorScheme.onPrimary
-                        : Theme.of(context).colorScheme.secondary,
+                        ? Colors.white
+                        : Color.fromRGBO(69, 191, 85, 1.0),
                     size: _page == 4 ? 35:30,
                   ),
                   backgroundColor: Colors.red),

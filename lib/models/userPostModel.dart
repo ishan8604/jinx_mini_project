@@ -7,6 +7,7 @@ class UserPostModel {
   final String location;
   final String postImg;
   final likes;
+  final String profileImg;
 
   const UserPostModel(
       {required this.caption,
@@ -16,7 +17,8 @@ class UserPostModel {
         required this.datepublished,
         required this.postImg,
         required this.likes,
-        required this.location
+        required this.location,
+        required this.profileImg
       });
 
   Map<String,dynamic> toJson() =>{
@@ -28,6 +30,7 @@ class UserPostModel {
     'postImg':postImg,
     'likes': likes,
     'location': location,
+    'profileImg':profileImg
   };
 
 }

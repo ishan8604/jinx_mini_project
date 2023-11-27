@@ -67,10 +67,7 @@ class _userProfileState extends State<userProfile> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Theme
-            .of(context)
-            .colorScheme
-            .onBackground,
+        backgroundColor: Color.fromRGBO(23, 22, 22, 1.0),
         appBar: AppBar(
           automaticallyImplyLeading: false,
           elevation: 0.0,
@@ -157,10 +154,7 @@ class _userProfileState extends State<userProfile> {
                             "${UserData['username']}", style: GoogleFonts.tajawal(
                               fontWeight: FontWeight.w900,
                               fontSize: 20,
-                              color: Theme
-                                  .of(context)
-                                  .colorScheme
-                                  .tertiary),),
+                              color: Color.fromRGBO(216, 249, 217, 1.0)),),
                           Spacer(),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
@@ -172,16 +166,10 @@ class _userProfileState extends State<userProfile> {
                                     style: GoogleFonts.oswald(
                                         fontWeight: FontWeight.bold,
                                         fontSize: 20,
-                                        color: Theme
-                                            .of(context)
-                                            .colorScheme
-                                            .onPrimary),),
+                                        color: Colors.white),),
                                   Text("Posts",
                                     style: GoogleFonts.cormorantGaramond(
-                                        color: Theme
-                                            .of(context)
-                                            .colorScheme
-                                            .onPrimary,
+                                        color: Colors.white,
                                         fontWeight: FontWeight.bold,
                                         fontSize: 15),),
                                 ],
@@ -190,18 +178,12 @@ class _userProfileState extends State<userProfile> {
                               Column(
                                 children: [
                                   Text(followers.toString(),
-                                    style: GoogleFonts.oswald(color: Theme
-                                        .of(context)
-                                        .colorScheme
-                                        .onPrimary,
+                                    style: GoogleFonts.oswald(color: Colors.white,
                                         fontWeight: FontWeight.bold,
                                         fontSize: 20),),
                                   Text("Followers",
                                     style: GoogleFonts.cormorantGaramond(
-                                        color: Theme
-                                            .of(context)
-                                            .colorScheme
-                                            .onPrimary,
+                                        color: Colors.white,
                                         fontWeight: FontWeight.bold,
                                         fontSize: 15),),
                                 ],
@@ -210,18 +192,12 @@ class _userProfileState extends State<userProfile> {
                               Column(
                                 children: [
                                   Text(following.toString(),
-                                    style: GoogleFonts.oswald(color: Theme
-                                        .of(context)
-                                        .colorScheme
-                                        .onPrimary,
+                                    style: GoogleFonts.oswald(color: Colors.white,
                                         fontWeight: FontWeight.bold,
                                         fontSize: 20),),
                                   Text("Following",
                                     style: GoogleFonts.cormorantGaramond(
-                                        color: Theme
-                                            .of(context)
-                                            .colorScheme
-                                            .onPrimary,
+                                        color: Colors.white,
                                         fontWeight: FontWeight.bold,
                                         fontSize: 15),),
                                 ],
@@ -233,10 +209,7 @@ class _userProfileState extends State<userProfile> {
                           Spacer(),
                           bio == null ? CircularProgressIndicator(
                             color: Colors.white,) : Text("${UserData['bio']}",
-                              style: GoogleFonts.heebo(color: Theme
-                                  .of(context)
-                                  .colorScheme
-                                  .tertiary,
+                              style: GoogleFonts.heebo(color: Color.fromRGBO(216, 249, 217, 1.0),
                                   fontWeight: FontWeight.bold,
                                   fontSize: 15)),
                           Spacer(),
@@ -252,10 +225,7 @@ class _userProfileState extends State<userProfile> {
                                     },
                                     style: ButtonStyle(
                                       backgroundColor: MaterialStateProperty.all<
-                                          Color>(Theme
-                                          .of(context)
-                                          .colorScheme
-                                          .onPrimary),
+                                          Color>(Colors.white),
                                       shape: MaterialStateProperty.all(
                                         RoundedRectangleBorder(
                                           // Change your radius here
@@ -264,10 +234,7 @@ class _userProfileState extends State<userProfile> {
                                       ),
                                     ),
                                     child: Text("Edit Profile",
-                                      style: TextStyle(color: Theme
-                                          .of(context)
-                                          .colorScheme
-                                          .background),)
+                                      style: TextStyle(color: Color.fromRGBO(0, 38, 28, 1.0)),)
                                 ),
                               ),
                               Spacer(),
@@ -281,10 +248,7 @@ class _userProfileState extends State<userProfile> {
                                     },
                                     style: ButtonStyle(
                                       backgroundColor: MaterialStateProperty.all<
-                                          Color>(Theme
-                                          .of(context)
-                                          .colorScheme
-                                          .onPrimary),
+                                          Color>(Colors.white),
                                       shape: MaterialStateProperty.all(
                                         RoundedRectangleBorder(
                                           // Change your radius here
@@ -293,20 +257,14 @@ class _userProfileState extends State<userProfile> {
                                       ),
                                     ),
                                     child: Text(
-                                      "Log Out", style: TextStyle(color: Theme
-                                        .of(context)
-                                        .colorScheme
-                                        .background),)
+                                      "Log Out", style: TextStyle(color: Color.fromRGBO(0, 38, 28, 1.0)),)
                                 ),
                               ),
                               Spacer(),
                             ],
                           ),
                           Spacer(),
-                          Divider(thickness: 2, color: Theme
-                              .of(context)
-                              .colorScheme
-                              .onPrimary,),
+                          Divider(thickness: 2, color: Colors.white,),
                         ],
                       ),
                     ),

@@ -169,10 +169,10 @@ class _loginState extends State<login> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Text("Don't have an account",style: TextStyle(color: Theme.of(context).colorScheme.tertiary,)),
+                              Text("Don't have an account",style: TextStyle(color: Color.fromRGBO(216, 249, 217, 1.0),)),
                               TextButton(onPressed: (){
                                 Navigator.push(context, MaterialPageRoute(builder: (context)=>registration()));
-                              }, child: Text("Register",style: TextStyle(color: Theme.of(context).colorScheme.tertiary,fontWeight: FontWeight.bold),)),
+                              }, child: Text("Register",style: TextStyle(color: Color.fromRGBO(216, 249, 217, 1.0),fontWeight: FontWeight.bold),)),
                             ],
                           ),
                           Container(
@@ -193,7 +193,7 @@ class _loginState extends State<login> {
                                 },
 
                                 style: ButtonStyle(
-                                  backgroundColor: MaterialStateProperty.all<Color>(Color.fromRGBO(4, 77, 41, 1.0)),
+                                  backgroundColor: MaterialStateProperty.all<Color>(Color.fromRGBO(22, 128, 57, 1.0)),
                                   shape: MaterialStateProperty.all(
                                     RoundedRectangleBorder(
                                       // Change your radius here
@@ -201,7 +201,7 @@ class _loginState extends State<login> {
                                     ),
                                   ),
                                 ),
-                                child: Text("Sign In",)
+                                child: Text("Sign In",style: TextStyle(color: Color.fromRGBO(0, 38, 28, 1.0),fontWeight: FontWeight.bold,fontSize: 15))
                             ),
                           )
                         ],

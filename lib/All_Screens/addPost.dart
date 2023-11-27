@@ -26,6 +26,7 @@ class _addPostState extends State<addPost> {
 
   String username="";
   String uid="";
+  String profileImg="";
 
   late TimeOfDay time;
   _selectedTime()async{
@@ -45,11 +46,13 @@ class _addPostState extends State<addPost> {
     setState(() {
       username = (snap.data() as Map<String,dynamic>)['username'];
       uid = (snap.data() as Map<String,dynamic>)['uid'];
+      profileImg = (snap.data() as Map<String,dynamic>)['profileImg'];
     });
   }
   void _postImage(
       String uid,
       String username,
+      String profileImg,
       ) async {
     setState(() {
       _isLoading = true;
@@ -61,7 +64,9 @@ class _addPostState extends State<addPost> {
             uid,
             username,
             controllerlocation.text,
-            _file!);
+            _file!,
+          profileImg
+        );
         if(res=="Success"){
           setState(() {
             _isLoading = false;
@@ -99,7 +104,9 @@ class _addPostState extends State<addPost> {
               uid,
               username,
               controllerlocation.text,
-              _file!);
+              _file!,
+            profileImg
+          );
           if(res=="Success"){
             setState(() {
               _isLoading = false;
@@ -254,7 +261,7 @@ class _addPostState extends State<addPost> {
   Widget build(BuildContext context) {
     return _file == null?
       Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.onSecondary,
+      backgroundColor: Color.fromRGBO(50, 50, 50, 1.0),
       appBar: AppBar(
         backgroundColor: Colors.black,
         title: Text("Add New Post",style: GoogleFonts.signikaNegative(
@@ -333,7 +340,7 @@ class _addPostState extends State<addPost> {
                                                         borderRadius: BorderRadius.all(Radius.circular(200)),
                                                         color: Colors.white,
                                                       ),
-                                                      child:IconButton(icon: Icon(Icons.upload_outlined,color: Theme.of(context).colorScheme.background,size: 50,),onPressed: (){_selectImage(context);},)
+                                                      child:IconButton(icon: Icon(Icons.upload_outlined,color: Color.fromRGBO(0, 38, 28, 1.0),size: 50,),onPressed: (){_selectImage(context);},)
                                                   ),
                                                 ),
                                             ),
@@ -347,14 +354,14 @@ class _addPostState extends State<addPost> {
                   ),
                 ),),
                 SizedBox(height: 60,),
-                Text("Tap on Icon to Select an Image",style: GoogleFonts.crimsonText(fontSize: 20,color: Theme.of(context).colorScheme.tertiary,),)
+                Text("Tap on Icon to Select an Image",style: GoogleFonts.crimsonText(fontSize: 20,color: Color.fromRGBO(216, 249, 217, 1.0),),)
               ],
             ),
           ),
         ),
     ):
     Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.onSecondary,
+      backgroundColor:  Color.fromRGBO(50, 50, 50, 1.0),
       appBar: AppBar(
         backgroundColor: Colors.black,
         leading: IconButton(
@@ -371,15 +378,15 @@ class _addPostState extends State<addPost> {
         actions: [
           TextButton(
               onPressed: (){
-                if(choicechip==false)   _postImage(uid, username);
+                if(choicechip==false)   _postImage(uid, username,profileImg);
                 else{
                   ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
                         backgroundColor: Colors.green,
-                          content: Text("Your Post is Scheduled For"+time.hour.toString()+time.minute.toString())
+                          content: Text("Your Post is Scheduled For"+time.hour.toString()+":"+time.minute.toString())
                       )
                   );
-                  _postImage(uid, username);
+                  _postImage(uid, username,profileImg);
                 }
               },
               child: Text(
@@ -428,7 +435,7 @@ class _addPostState extends State<addPost> {
                     maxLines: null,
                     decoration: InputDecoration(
                       hintText: 'Write a Caption',
-                      hintStyle: TextStyle(color: Theme.of(context).colorScheme.onPrimary,fontWeight: FontWeight.w300),
+                      hintStyle: TextStyle(color: Colors.white,fontWeight: FontWeight.w300),
                       border: InputBorder.none,
                       filled: true,
                       fillColor: Colors.transparent
@@ -449,7 +456,7 @@ class _addPostState extends State<addPost> {
                 controller: controllerlocation,
                 style: TextStyle(color: Color.fromRGBO(216, 249, 217, 1.0),fontWeight: FontWeight.bold),
                 decoration: InputDecoration(
-                  prefixIcon: Icon(Icons.location_on_outlined,color: Theme.of(context).colorScheme.onPrimary,size:30 ,),
+                  prefixIcon: Icon(Icons.location_on_outlined,color: Colors.white,size:30 ,),
                   hintText: 'Add Location',
                   hintStyle: TextStyle(color: Colors.white,fontWeight: FontWeight.w300),
                   filled: true,
@@ -505,7 +512,6 @@ class _addPostState extends State<addPost> {
                                             },
                                             child: Text("Choose Time")
                                         ),
-                                        //Text("${time.hour}:${time.minute}",style: TextStyle(color: Colors.white),),
                                       ],
                                     ),
                                 Padding(

@@ -55,10 +55,10 @@ class _comment_screenState extends State<comment_screen> {
       child: Container(
         height: MediaQuery.of(context).size.height * 0.95,
         child: Scaffold(
-          backgroundColor: Theme.of(context).colorScheme.onSecondary,
+          backgroundColor: Color.fromRGBO(50, 50, 50, 1.0),
           appBar: AppBar(
             automaticallyImplyLeading: false,
-            backgroundColor: Theme.of(context).colorScheme.onBackground,
+            backgroundColor: Color.fromRGBO(23, 22, 22, 1.0),
             elevation: 0.0,
             title: Column(
               crossAxisAlignment: CrossAxisAlignment.center,

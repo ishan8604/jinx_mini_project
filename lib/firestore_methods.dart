@@ -1,6 +1,5 @@
 import 'dart:io';
 import 'dart:typed_data';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:jinx/storage_methods.dart';
@@ -19,11 +18,10 @@ class FirestoreMethods {
       String uid,
       String username,
       String location,
-      Uint8List file) async {
+      Uint8List file,
+      String profileImg) async {
     try {
-      print("Complete");
       String photoUrl = await StorageMethods().uploadImageToStorage('posts', file, true);
-      print("Complete");
 
       String postId = const Uuid().v1();
       UserPostModel userPostModel = UserPostModel(
@@ -34,7 +32,9 @@ class FirestoreMethods {
           datepublished: DateTime.now(),
           postImg: photoUrl,
           likes: [],
-          location: location);
+          location: location,
+        profileImg: profileImg
+      );
 
       _firestore.collection('posts').doc(postId).set(userPostModel.toJson());
       res = "Success";
@@ -82,6 +82,7 @@ class FirestoreMethods {
   }
 
   Future<void> postComment(String postId,String text,String uid,String username)async{
+    var data = await _firestore.collection("UsersDetails").doc(_auth.currentUser!.uid).get();
     try{
       if(text.isNotEmpty){
         String commentId = Uuid().v1();
@@ -93,7 +94,8 @@ class FirestoreMethods {
               'text':text,
               'commentId':commentId,
               'datePublished':DateTime.now(),
-              'likes':[]
+              'likes':[],
+              'profileImg':(data.data() as Map<String,dynamic>)['profileImg']
             });
         commentWarning = "Commented!";
       }
@@ -124,6 +126,31 @@ class FirestoreMethods {
       print(res);
     }
     return res;
+  }
+
+  Future<void> updateFollow(String currentUid,String uid)async {
+    try{
+      DocumentSnapshot snap = await _firestore.collection("UsersDetails").doc(currentUid).get();
+      List following = (snap.data()! as dynamic)['following'];
+
+      if(following.contains(uid)){
+        await _firestore.collection("UsersDetails").doc(uid).update({
+              'followers': FieldValue.arrayRemove([currentUid])
+            });
+        await _firestore.collection("UsersDetails").doc(currentUid).update({
+              'following': FieldValue.arrayRemove([uid])
+            });
+      }
+      await _firestore.collection("UsersDetails").doc(uid).update({
+            'followers': FieldValue.arrayUnion([currentUid])
+          });
+      await _firestore.collection("UsersDetails").doc(currentUid).update({
+            'following': FieldValue.arrayUnion([uid])
+          });
+    }
+    catch(err){
+      print(err.toString());
+    }
   }
 
 }

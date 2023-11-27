@@ -19,6 +19,7 @@ class _feedState extends State<feed> {
         Scaffold(
           backgroundColor: Color.fromRGBO(23, 22, 22, 1.0),
           appBar: AppBar(
+            automaticallyImplyLeading: false,
             backgroundColor: Colors.black,
           title: Text("JINX",style: GoogleFonts.sriracha(color: Color.fromRGBO(216, 249, 217, 1.0)),),
           actions: [

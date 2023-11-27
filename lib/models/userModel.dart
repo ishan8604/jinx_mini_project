@@ -29,7 +29,7 @@ class UserModel {
     'bio':bio,
     'followers': follower,
     'following': following,
-    'profileImg':""
+    'profileImg':"https://www.wissetuinen.nl/wp-content/uploads/2016/01/profiel-icoon.jpg"
   };
 
 }

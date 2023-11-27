@@ -16,7 +16,7 @@ class _notificationState extends State<notification> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.onSecondary,
+      backgroundColor: Color.fromRGBO(50, 50, 50, 1.0),
       appBar: AppBar(
         backgroundColor: Colors.black,
         title: Text("Notification",style: GoogleFonts.signikaNegative(

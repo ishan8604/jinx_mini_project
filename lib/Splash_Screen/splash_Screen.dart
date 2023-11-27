@@ -1,7 +1,5 @@
 import 'dart:async';
-import 'package:jinx/All_Screens/anotherUserProfile.dart';
 import 'package:jinx/Home_Screen/home_screen.dart';
-import 'package:jinx/Theme/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:jinx/authentication/login.dart';
@@ -35,7 +33,7 @@ class _splash_screnState extends State<splash_scren> {
                 backgroundColor: Colors.transparent,
                 body: Container(
                   child: Center(
-                    child: Text("JINX",style: GoogleFonts.bebasNeue(color:Theme.of(context).colorScheme.tertiary,fontSize: 40)),
+                    child: Text("JINX",style: GoogleFonts.bebasNeue(color:Color.fromRGBO(216, 249, 217, 1.0),fontSize: 40)),
                   ),
                 ),
                 bottomNavigationBar: Padding(
@@ -43,9 +41,9 @@ class _splash_screnState extends State<splash_scren> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text("from",style: TextStyle(color: Theme.of(context).colorScheme.tertiary),),
+                      Text("from",style: TextStyle(color: Color.fromRGBO(216, 249, 217, 1.0),),),
                       SizedBox(width: 10,),
-                      Text("Jinx",style: GoogleFonts.sriracha(color: Theme.of(context).colorScheme.tertiary,fontSize: 26),)
+                      Text("Jinx",style: GoogleFonts.sriracha(color: Color.fromRGBO(216, 249, 217, 1.0),fontSize: 26),)
                     ],
                   ),
                 )
@@ -84,7 +82,7 @@ class _splash_scren1State extends State<splash_scren1> {
                 backgroundColor: Colors.transparent,
                 body: Container(
                   child: Center(
-                    child: Text("JINX",style: GoogleFonts.bebasNeue(color:Theme.of(context).colorScheme.tertiary,fontSize: 40)),
+                    child: Text("JINX",style: GoogleFonts.bebasNeue(color:Color.fromRGBO(216, 249, 217, 1.0),fontSize: 40)),
                   ),
                 ),
                 bottomNavigationBar: Padding(
@@ -92,9 +90,9 @@ class _splash_scren1State extends State<splash_scren1> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text("from",style: TextStyle(color: Theme.of(context).colorScheme.tertiary),),
+                      Text("from",style: TextStyle(color: Color.fromRGBO(216, 249, 217, 1.0)),),
                       SizedBox(width: 10,),
-                      Text("Jinx",style: GoogleFonts.sriracha(color: Theme.of(context).colorScheme.tertiary,fontSize: 26),)
+                      Text("Jinx",style: GoogleFonts.sriracha(color: Color.fromRGBO(216, 249, 217, 1.0),fontSize: 26),)
                     ],
                   ),
                 )

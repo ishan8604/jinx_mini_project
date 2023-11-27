@@ -19,6 +19,13 @@ class _userSearchState extends State<userSearch> {
   List following=[];
 
   @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    searchUser.dispose();
+  }
+
+  @override
   void initState(){
     // TODO: implement initState
     super.initState();
@@ -60,8 +67,7 @@ class _userSearchState extends State<userSearch> {
         ),
       ),
       body: isShowUser?FutureBuilder(
-        future: FirebaseFirestore.instance.collection('UsersDetails')
-            .where("username",isLessThanOrEqualTo: searchUser.text).get(),
+        future: FirebaseFirestore.instance.collection('UsersDetails').where('username',isLessThanOrEqualTo: searchUser.text).get(),
         builder: (context,snapshot){
           if(!snapshot.hasData){
             return Center(child: CircularProgressIndicator(color: Colors.black,),);
@@ -94,7 +100,7 @@ class _userSearchState extends State<userSearch> {
                                 borderRadius: BorderRadius.all(Radius.circular(25)),
                                 color: Colors.black
                             ),
-                            child: (snapshot.data!).docs![index]['profileImg']==""?ClipRRect(child: Image.network("https://www.kindpng.com/picc/m/24-248253_user-profile-default-image-png-clipart-png-download.png",fit: BoxFit.cover,),borderRadius: BorderRadius.all(Radius.circular(50)),):ClipRRect(child: Image.network((snapshot.data! as dynamic).docs[index]['profileImg'],fit: BoxFit.cover,),borderRadius: BorderRadius.all(Radius.circular(50)),)
+                            child: (snapshot.data!).docs![index]['profileImg']==""?ClipRRect(child: Image.network("https://www.kindpng.com/picc/m/24-248253_user-profile-default-image-png-clipart-png-download.png",fit: BoxFit.cover,),borderRadius: BorderRadius.all(Radius.circular(50)),):ClipRRect(child: Image.network((snapshot.data!).docs![index]['profileImg'],fit: BoxFit.cover,),borderRadius: BorderRadius.all(Radius.circular(50)),)
                         ),
                         title: Text((snapshot.data!).docs![index]['username']),
                         subtitle: Text((snapshot.data!).docs![index]['fullname']),
@@ -107,13 +113,7 @@ class _userSearchState extends State<userSearch> {
         },
 
       ):
-      FutureBuilder(
-          future:   FirebaseFirestore.instance.collection('posts').get(),
-          builder: (context,snapshot){
-            if(!snapshot.hasData){
-              return Center(child: CircularProgressIndicator(color: Colors.black,),);
-            }
-            return Scaffold(
+      Scaffold(
               backgroundColor: Color.fromRGBO(50, 50, 50, 1.0),
               body: Center(
                 child: Padding(
@@ -206,9 +206,7 @@ class _userSearchState extends State<userSearch> {
                   ),
                 ),
               ),
-            );
-          }
-      )
+            )
     );
   }
 }

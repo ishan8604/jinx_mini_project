@@ -202,7 +202,7 @@ class _edit_profileState extends State<edit_profile> {
                     maxLines: null,
                     decoration: InputDecoration(
                       hintText: 'Write a Bio',
-                      hintStyle: TextStyle(color: Theme.of(context).colorScheme.onPrimary,fontWeight: FontWeight.w300),
+                      hintStyle: TextStyle(color: Colors.white,fontWeight: FontWeight.w300),
                       border: InputBorder.none,
                       filled: true,
                       fillColor: Colors.transparent
